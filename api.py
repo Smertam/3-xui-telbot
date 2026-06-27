@@ -205,7 +205,7 @@ class PanelAPI:
 
     def get_sub_link(self, email: str, sub_id: str) -> str:
         if self.sub_link_template:
-            return self.sub_link_template.replace("{sub_id}", sub_id)
+            return self.sub_link_template.replace("{sub_id}", sub_id).replace("{id}", sub_id)
         import re
         match = re.search(r"https?://([^:/]+)", self.panel_url)
         host = match.group(1) if match else "localhost"

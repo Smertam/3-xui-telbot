@@ -40,6 +40,7 @@ async def run_bot():
         return
 
     await init_db()
+    panel_api.reload_config()
     logger.info("Database initialized.")
 
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
