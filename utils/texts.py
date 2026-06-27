@@ -48,13 +48,13 @@ async def receipt_rejected(amount: float, symbol: str = "تومان") -> str:
 async def config_created(sub_link: str, expire_date: str, price: int, plan_name: str, gb: int, days: int, symbol: str = "تومان") -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  ✅ <b>کانفیگ ساخته شد!</b>\n"
+        f"  ✅ کانفیگ ساخته شد!\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  📦 پلن: <b>{plan_name}</b>\n"
-        f"  📊 حجم: <b>{gb} GB</b>\n"
-        f"  📅 مدت: <b>{days} روز</b>\n"
-        f"  💰 پرداخت: <b>{price:,} {symbol}</b>\n"
-        f"  ⏰ انقضا: <b>{expire_date}</b>\n\n"
+        f"  📦 پلن: {plan_name}\n"
+        f"  📊 حجم: {gb} GB\n"
+        f"  📅 مدت: {days} روز\n"
+        f"  💰 پرداخت: {price:,} {symbol}\n"
+        f"  ⏰ انقضا:{expire_date}\n\n"
         f"━━━━━━━━━━━━━━━━━━━━\n"
         f"  🔗 لینک اشتراک:\n"
         f"<code>{sub_link}</code>\n"
@@ -66,10 +66,10 @@ async def config_created(sub_link: str, expire_date: str, price: int, plan_name:
 async def free_test_config(sub_link: str, days: int) -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  🆓 <b>کانفیگ تست رایگان</b>\n"
+        f"  🆓 کانفیگ تست رایگان\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  📊 حجم: <b>100 مگابایت</b>\n"
-        f"  📅 مدت: <b>{days} روز</b>\n\n"
+        f"  📊 حجم: 100 مگابایت\n"
+        f"  📅 مدت: {days} روز\n\n"
         f"━━━━━━━━━━━━━━━━━━━━\n"
         f"  🔗 لینک اشتراک:\n"
         f"<code>{sub_link}</code>\n"
