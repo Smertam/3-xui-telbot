@@ -7,86 +7,86 @@ from utils.premium_emoji import pe
 async def wallet_text(balance: float, symbol: str = "تومان") -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  💰 <b>My Wallet</b>\n"
+        f"  💰 <b>کیف پول من</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  Balance: <b>{balance:,.0f} {symbol}</b>\n\n"
-        f"  Upload a payment receipt to top up."
+        f"  موجودی: <b>{balance:,.0f} {symbol}</b>\n\n"
+        f"  رسید پرداخت آپلود کنید تا کیف پول شارژ شود."
     )
 
 
 async def receipt_submitted(amount: float, symbol: str = "تومان") -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  ✅ <b>Receipt Submitted</b>\n"
+        f"  ✅ <b>رسید ارسال شد!</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  Amount: <b>{amount:,.0f} {symbol}</b>\n"
-        f"  Status: <b>Pending Review</b>\n\n"
-        f"  Admins will review your receipt."
+        f"  مبلغ: <b>{amount:,.0f} {symbol}</b>\n"
+        f"  وضعیت: <b>در انتظار بررسی</b>\n\n"
+        f"  ادمین رسید شما را بررسی خواهد کرد."
     )
 
 
 async def receipt_approved(amount: float, new_balance: float, symbol: str = "تومان") -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  ✅ <b>Receipt Approved!</b>\n"
+        f"  ✅ <b>رسید تایید شد!</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  Added: <b>{amount:,.0f} {symbol}</b>\n"
-        f"  New Balance: <b>{new_balance:,.0f} {symbol}</b>"
+        f"  اضافه شده: <b>{amount:,.0f} {symbol}</b>\n"
+        f"  موجودی جدید: <b>{new_balance:,.0f} {symbol}</b>"
     )
 
 
 async def receipt_rejected(amount: float, symbol: str = "تومان") -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  ❌ <b>Receipt Rejected</b>\n"
+        f"  ❌ <b>رسید رد شد</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  Amount: <b>{amount:,.0f} {symbol}</b>\n\n"
-        f"  Contact admin for more info."
+        f"  مبلغ: <b>{amount:,.0f} {symbol}</b>\n\n"
+        f"  برای اطلاعات بیشتر با ادمین تماس بگیرید."
     )
 
 
 async def config_created(sub_link: str, expire_date: str, price: int, plan_name: str, gb: int, days: int, symbol: str = "تومان") -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  ✅ <b>Config Created!</b>\n"
+        f"  ✅ <b>کانفیگ ساخته شد!</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  📦 Plan: <b>{plan_name}</b>\n"
-        f"  📊 Volume: <b>{gb} GB</b>\n"
-        f"  📅 Duration: <b>{days} days</b>\n"
-        f"  💰 Price: <b>{price:,} {symbol}</b>\n"
-        f"  ⏰ Expires: <b>{expire_date}</b>\n\n"
+        f"  📦 پلن: <b>{plan_name}</b>\n"
+        f"  📊 حجم: <b>{gb} GB</b>\n"
+        f"  📅 مدت: <b>{days} روز</b>\n"
+        f"  💰 پرداخت: <b>{price:,} {symbol}</b>\n"
+        f"  ⏰ انقضا: <b>{expire_date}</b>\n\n"
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  🔗 Sub Link:\n"
+        f"  🔗 لینک اشتراک:\n"
         f"<code>{sub_link}</code>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"Scan the QR code or copy the link above."
+        f"QR کد را اسکن کنید یا لینک بالا را کپی نمایید."
     )
 
 
 async def free_test_config(sub_link: str, days: int) -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  🆓 <b>Free Test Config</b>\n"
+        f"  🆓 <b>کانفیگ تست رایگان</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  📊 Volume: <b>100 MB</b>\n"
-        f"  📅 Duration: <b>{days} day</b>\n\n"
+        f"  📊 حجم: <b>100 مگابایت</b>\n"
+        f"  📅 مدت: <b>{days} روز</b>\n\n"
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  🔗 Sub Link:\n"
+        f"  🔗 لینک اشتراک:\n"
         f"<code>{sub_link}</code>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"Scan the QR code or copy the link above.\n\n"
-        f"<i>This is your free trial. Buy a full config to continue.</i>"
+        f"QR کد را اسکن کنید یا لینک بالا را کپی نمایید.\n\n"
+        f"<i>این تست رایگان شماست. برای ادامه، کانفیگ کامل بخرید.</i>"
     )
 
 
 async def no_balance(price: int, balance: float, symbol: str = "تومان") -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  ❌ <b>Insufficient Balance</b>\n"
+        f"  ❌ <b>موجودی ناکافی</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  Config Price: <b>{price:,} {symbol}</b>\n"
-        f"  Your Balance: <b>{balance:,.0f} {symbol}</b>\n\n"
-        f"  Top up your wallet first."
+        f"  قیمت کانفیگ: <b>{price:,} {symbol}</b>\n"
+        f"  موجودی شما: <b>{balance:,.0f} {symbol}</b>\n\n"
+        f"  ابتدا کیف پول خود را شارژ کنید."
     )
 
 
@@ -94,90 +94,90 @@ async def config_list_text(configs: list[dict]) -> str:
     if not configs:
         return (
             f"━━━━━━━━━━━━━━━━━━━━\n"
-            f"  📋 <b>My Configs</b>\n"
+            f"  📋 <b>کانفیگ‌های من</b>\n"
             f"━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"  No active configs.\n"
-            f"  Buy a config to get started!"
+            f"  کانفیگ فعالی ندارید.\n"
+            f"  برای شروع، کانفیگ بخرید!"
         )
     text = (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  📋 <b>My Configs</b> ({len(configs)})\n"
+        f"  📋 <b>کانفیگ‌های من</b> ({len(configs)})\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
     )
     for i, cfg in enumerate(configs, 1):
         status = "🟢" if cfg["is_active"] else "🔴"
-        text += f"  {status} Config #{cfg['id']} — Expires: {cfg['expire_date'][:10]}\n"
+        text += f"  {status} کانفیگ #{cfg['id']} — انقضا: {cfg['expire_date'][:10]}\n"
     return text
 
 
 async def admin_stats(user_count: int, config_count: int, revenue: float, pending: int, symbol: str = "تومان") -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  📊 <b>Admin Stats</b>\n"
+        f"  📊 <b>آمار ادمین</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  👥 Users: <b>{user_count}</b>\n"
-        f"  🔑 Active Configs: <b>{config_count}</b>\n"
-        f"  💰 Revenue: <b>{revenue:,.0f} {symbol}</b>\n"
-        f"  📋 Pending Receipts: <b>{pending}</b>"
+        f"  👥 کل کاربران: <b>{user_count}</b>\n"
+        f"  🔑 کانفیگ‌های فعال: <b>{config_count}</b>\n"
+        f"  💰 درآمد کل: <b>{revenue:,.0f} {symbol}</b>\n"
+        f"  📋 رسیدهای در انتظار: <b>{pending}</b>"
     )
 
 
 async def receipt_info(receipt: dict, symbol: str = "تومان") -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  📋 <b>Receipt #{receipt['id']}</b>\n"
+        f"  📋 <b>رسید #{receipt['id']}</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  👤 User: @{receipt.get('username', 'N/A')} ({receipt['user_id']})\n"
-        f"  💰 Amount: <b>{receipt['amount']:,.0f} {symbol}</b>\n"
-        f"  📅 Date: {receipt['created_at']}\n"
-        f"  📌 Status: <b>{receipt['status']}</b>"
+        f"  👤 کاربر: @{receipt.get('username', 'N/A')} ({receipt['user_id']})\n"
+        f"  💰 مبلغ: <b>{receipt['amount']:,.0f} {symbol}</b>\n"
+        f"  📅 تاریخ: {receipt['created_at']}\n"
+        f"  📌 وضعیت: <b>{receipt['status']}</b>"
     )
 
 
 async def user_info(user: dict, symbol: str = "تومان") -> str:
-    banned_text = "Yes" if user["is_banned"] else "No"
+    banned_text = "بله" if user["is_banned"] else "خیر"
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  👤 <b>User Info</b>\n"
+        f"  👤 <b>اطلاعات کاربر</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  ID: <code>{user['id']}</code>\n"
-        f"  Username: @{user.get('username', 'N/A')}\n"
-        f"  Name: {user.get('first_name', 'N/A')}\n"
-        f"  💰 Balance: <b>{user['balance']:,.0f} {symbol}</b>\n"
-        f"  📅 Joined: {user['created_at']}\n"
-        f"  🔒 Banned: {banned_text}"
+        f"  آیدی: <code>{user['id']}</code>\n"
+        f"  نام کاربری: @{user.get('username', 'N/A')}\n"
+        f"  نام: {user.get('first_name', 'N/A')}\n"
+        f"  💰 موجودی: <b>{user['balance']:,.0f} {symbol}</b>\n"
+        f"  📅 تاریخ ثبت: {user['created_at']}\n"
+        f"  🔒 مسدود: {banned_text}"
     )
 
 
 async def enter_amount() -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  💰 <b>Top Up Wallet</b>\n"
+        f"  💰 <b>شارژ کیف پول</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"  Enter amount (e.g., 50000):"
+        f"  مبلغ را وارد کنید (مثال: 50000):"
     )
 
 
 async def setting_updated(key: str, value: str) -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  ⚙️ <b>Setting Updated!</b>\n"
+        f"  ⚙️ <b>تنظیم به‌روزرسانی شد!</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
         f"  {key}: <b>{value}</b>"
     )
 
 
 async def confirm_approve(amount: float) -> str:
-    return f"Approve receipt for {amount:,.0f}?"
+    return f"تایید رسید به مبلغ {amount:,.0f}؟"
 
 
 async def confirm_reject() -> str:
-    return "Reject this receipt?"
+    return "رد این رسید؟"
 
 
 async def no_pending_receipts() -> str:
     return (
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  ✅ <b>No Pending Receipts</b>\n"
+        f"  ✅ <b>رسید در انتظاری وجود ندارد</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━"
     )

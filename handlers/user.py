@@ -151,8 +151,11 @@ async def cb_buy_config(callback: CallbackQuery):
         await callback.answer("لطفاً ابتدا /start را بزنید", show_alert=True)
         return
     await callback.message.edit_text(
-        "**یک پلن انتخاب کنید:**\n\nپلن مورد نظر خود را انتخاب کنید.",
-        parse_mode="Markdown",
+        "━━━━━━━━━━━━━━━━━━━━\n"
+        "  🛒 <b>خرید کانفیگ</b>\n"
+        "━━━━━━━━━━━━━━━━━━━━\n\n"
+        "  پلن مورد نظر خود را انتخاب کنید:",
+        parse_mode="HTML",
         reply_markup=await plans_menu(),
     )
 
@@ -167,12 +170,15 @@ async def cb_select_plan(callback: CallbackQuery):
 
     symbol = await get_setting("currency_symbol") or "تومان"
     await callback.message.edit_text(
-        f"**{plan['name']}**\n\n"
-        f"\U0001f4ca Volume: {plan['gb']}GB\n"
-        f"\U0001f4c5 Duration: {plan['days']} days\n"
-        f"\U0001f4b0 Price: {plan['price']:,} {symbol}\n\n"
-        f"**Choose payment method:**",
-        parse_mode="Markdown",
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  📦 <b>{plan['name']}</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  📊 حجم: <b>{plan['gb']} GB</b>\n"
+        f"  📅 مدت: <b>{plan['days']} روز</b>\n"
+        f"  💰 قیمت: <b>{plan['price']:,} {symbol}</b>\n\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  روش پرداخت را انتخاب کنید:",
+        parse_mode="HTML",
         reply_markup=await payment_method_menu(plan_id),
     )
 
@@ -192,6 +198,7 @@ async def cb_pay_wallet(callback: CallbackQuery):
     if user["balance"] < plan["price"]:
         await callback.message.edit_text(
             await no_balance(plan["price"], user["balance"], symbol),
+            parse_mode="HTML",
             reply_markup=await back_to_menu(),
         )
         return
@@ -358,7 +365,7 @@ async def cb_config_detail(callback: CallbackQuery):
     await db.close()
 
     if not cfg:
-        await callback.answer("Config not found!", show_alert=True)
+        await callback.answer("کانفیگ یافت نشد!", show_alert=True)
         return
 
     cfg = dict(cfg)
@@ -372,17 +379,17 @@ async def cb_config_detail(callback: CallbackQuery):
     if client_configs:
         text = (
             f"━━━━━━━━━━━━━━━━━━━━\n"
-            f"  🔑 <b>Config #{cfg['id']}</b>\n"
+            f"  🔑 <b>کانفیگ #{cfg['id']}</b>\n"
             f"━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"  ⏰ Expires: <b>{cfg['expire_date'][:10]}</b>\n"
-            f"  📧 Email: <code>{cfg['email']}</code>\n\n"
+            f"  ⏰ انقضا: <b>{cfg['expire_date'][:10]}</b>\n"
+            f"  📧 ایمیل: <code>{cfg['email']}</code>\n\n"
         )
         for cc in client_configs:
             text += f"━━━━━━━━━━━━━━━━━━━━\n"
             text += f"  📡 <b>{cc['tag']}</b> ({cc['protocol']})\n\n"
             text += f"  <code>{cc['config_link']}</code>\n\n"
         text += f"━━━━━━━━━━━━━━━━━━━━\n"
-        text += f"  🔗 <b>Sub Link:</b>\n"
+        text += f"  🔗 <b>لینک اشتراک:</b>\n"
         text += f"  <code>{sub_link}</code>\n"
         text += f"━━━━━━━━━━━━━━━━━━━━"
 
@@ -397,15 +404,15 @@ async def cb_config_detail(callback: CallbackQuery):
     else:
         text = (
             f"━━━━━━━━━━━━━━━━━━━━\n"
-            f"  🔑 <b>Config #{cfg['id']}</b>\n"
+            f"  🔑 <b>کانفیگ #{cfg['id']}</b>\n"
             f"━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"  ⏰ Expires: <b>{cfg['expire_date'][:10]}</b>\n"
-            f"  📧 Email: <code>{cfg['email']}</code>\n\n"
+            f"  ⏰ انقضا: <b>{cfg['expire_date'][:10]}</b>\n"
+            f"  📧 ایمیل: <code>{cfg['email']}</code>\n\n"
             f"━━━━━━━━━━━━━━━━━━━━\n"
-            f"  🔗 <b>Sub Link:</b>\n"
+            f"  🔗 <b>لینک اشتراک:</b>\n"
             f"  <code>{sub_link}</code>\n"
             f"━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"Scan the QR code or copy the link above."
+            f"QR کد را اسکن کنید یا لینک بالا را کپی نمایید."
         )
         qr_img = generate_qr(sub_link)
         try:
@@ -428,6 +435,6 @@ async def cb_copy_link(callback: CallbackQuery):
     await db.close()
 
     if cfg:
-        await callback.answer(f"Link: {cfg['sub_link']}", show_alert=True)
+        await callback.answer(f"لینک: {cfg['sub_link']}", show_alert=True)
     else:
-        await callback.answer("Config not found!", show_alert=True)
+        await callback.answer("کانفیگ یافت نشد!", show_alert=True)
