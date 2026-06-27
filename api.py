@@ -273,11 +273,58 @@ class PanelAPI:
             clients = inbound.get("settings", {}).get("clients", [])
             for client in clients:
                 if client.get("email") == email:
+                    uuid = client.get("id", "")
+                    tag = inbound.get("tag", "")
+                    protocol = inbound.get("protocol", "")
+                    stream = inbound.get("streamSettings", {})
+                    net = stream.get("network", "tcp")
+                    security = stream.get("security", "none")
+                    sni = ""
+                    if security == "tls":
+                        tls_settings = stream.get("tlsSettings", {})
+                        sni_list = tls_settings.get("serverName", [])
+                        if sni_list:
+                            sni = sni_list[0] if isinstance(sni_list, list) else sni_list
+                    elif security == "reality":
+                        reality = stream.get("realitySettings", {})
+                        sni = reality.get("serverNames", [""])[0] if reality.get("serverNames") else ""
+
+                    host = ""
+                    port = 0
+                    path = ""
+                    if net == "ws":
+                        ws = stream.get("wsSettings", {})
+                        host = ws.get("headers", {}).get("Host", "")
+                        path = ws.get("path", "")
+                    elif net == "tcp":
+                        tcp = stream.get("tcpSettings", {})
+                        path = tcp.get("header", {}).get("type", "none")
+
+                    try:
+                        import re
+                        match = re.search(r"https?://([^:/]+)", self.panel_url)
+                        server_host = match.group(1) if match else "localhost"
+                    except Exception:
+                        server_host = "localhost"
+
+                    port_match = re.search(r":(\d+)", self.panel_url)
+                    server_port = int(port_match.group(1)) if port_match else 443
+
+                    params = f"security={security}&type={net}"
+                    if sni:
+                        params += f"&sni={sni}"
+                    if path:
+                        params += f"&path={path}"
+                    params += f"#{tag}"
+
+                    config_link = f"vless://{uuid}@{server_host}:{server_port}?{params}"
+
                     configs.append({
                         "inbound_id": inbound["id"],
-                        "tag": inbound.get("tag", ""),
-                        "protocol": inbound.get("protocol", ""),
-                        "email": client.get("email", ""),
+                        "tag": tag,
+                        "protocol": protocol,
+                        "email": email,
+                        "config_link": config_link,
                     })
         return configs
 

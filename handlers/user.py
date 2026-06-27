@@ -363,30 +363,45 @@ async def cb_config_detail(callback: CallbackQuery):
 
     cfg = dict(cfg)
     sub_link = cfg["sub_link"]
-    text = (
-        f"**Config #{cfg['id']}**\n\n"
-        f"Sub Link:\n`{sub_link}`\n\n"
-        f"Expires: {cfg['expire_date'][:10]}\n"
-        f"Email: `{cfg['email']}`\n"
-    )
 
     try:
         client_configs = await panel_api.get_client_configs(cfg["email"])
-        if client_configs:
-            text += f"\n**Protocols inside:**\n"
-            for cc in client_configs:
-                text += f"  {cc['protocol']} - {cc['tag']} (ID: {cc['inbound_id']})\n"
     except Exception:
-        pass
+        client_configs = []
 
-    text += f"\nScan the QR code or copy the link above."
-    qr_img = generate_qr(sub_link)
+    if client_configs:
+        text = f"**Config #{cfg['id']}**\n\n"
+        text += f"Expires: {cfg['expire_date'][:10]}\n"
+        text += f"Email: `{cfg['email']}`\n\n"
+        text += f"**Config Links:**\n\n"
+        for cc in client_configs:
+            text += f"**{cc['tag']}** ({cc['protocol']}):\n`{cc['config_link']}`\n\n"
+        text += f"**Sub Link:**\n`{sub_link}`"
+    else:
+        text = (
+            f"**Config #{cfg['id']}**\n\n"
+            f"Sub Link:\n`{sub_link}`\n\n"
+            f"Expires: {cfg['expire_date'][:10]}\n"
+            f"Email: `{cfg['email']}`\n\n"
+            f"Scan the QR code or copy the link above."
+        )
+        qr_img = generate_qr(sub_link)
+        try:
+            await callback.message.delete()
+        except Exception:
+            pass
+        await callback.message.answer_photo(
+            photo=qr_img, caption=text, parse_mode="Markdown",
+            reply_markup=await config_detail(config_id),
+        )
+        return
+
     try:
         await callback.message.delete()
     except Exception:
         pass
-    await callback.message.answer_photo(
-        photo=qr_img, caption=text, parse_mode="Markdown",
+    await callback.message.answer(
+        text, parse_mode="Markdown",
         reply_markup=await config_detail(config_id),
     )
 
