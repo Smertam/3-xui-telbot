@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<div class="page-header d-flex justify-content-between align-items-center">
+    <h3>Bot Settings</h3>
+    <button type="submit" form="settingsForm" class="btn btn-indigo">
+        <i class="bi bi-check-lg"></i> Save All Changes
+    </button>
+</div>
+
+<form id="settingsForm" method="POST">
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card card-dark">
+            <div class="card-header"><i class="bi bi-chat-dots"></i> General</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Welcome Text</label>
+                    <textarea name="welcome_text" class="form-control" rows="3">{{ settings.get('welcome_text', '') }}</textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Currency Symbol</label>
+                        <input type="text" name="currency_symbol" class="form-control" value="{{ settings.get('currency_symbol', 'تومان') }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Currency Code</label>
+                        <input type="text" name="currency" class="form-control" value="{{ settings.get('currency', 'IRR') }}">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Min Top-up Amount</label>
+                    <input type="number" name="min_topup" class="form-control" value="{{ settings.get('min_topup', '50000') }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-dark mt-4">
+            <div class="card-header"><i class="bi bi-credit-card"></i> Payment</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Card Number</label>
+                    <input type="text" name="card_number" class="form-control" value="{{ settings.get('card_number', '') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Card Owner Name</label>
+                    <input type="text" name="card_owner" class="form-control" value="{{ settings.get('card_owner', '') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">C2C Title</label>
+                    <input type="text" name="c2c_title" class="form-control" value="{{ settings.get('c2c_title', '') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">C2C Instruction</label>
+                    <textarea name="c2c_instruction" class="form-control" rows="2">{{ settings.get('c2c_instruction', '') }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-dark mt-4">
+            <div class="card-header"><i class="bi bi-cloud-download"></i> Free Test</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Free Test Volume (MB)</label>
+                        <input type="number" name="free_test_mb" class="form-control" value="{{ settings.get('free_test_mb', '102400') }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Free Test Enabled</label>
+                        <select name="free_test_enabled" class="form-select">
+                            <option value="1" {{ 'selected' if settings.get('free_test_enabled') == '1' }}>Enabled</option>
+                            <option value="0" {{ 'selected' if settings.get('free_test_enabled') == '0' }}>Disabled</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-dark mt-4">
+            <div class="card-header"><i class="bi bi-check-circle"></i> Auto-Approve</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Auto-Approve Max Amount (0 = disabled)</label>
+                    <input type="number" name="auto_approve_max" class="form-control" value="{{ settings.get('auto_approve_max', '0') }}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card card-dark">
+            <div class="card-header"><i class="bi bi-hand-index-thumb"></i> User Menu Buttons</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Wallet Button</label>
+                    <input type="text" name="btn_wallet" class="form-control" value="{{ settings.get('btn_wallet', 'Wallet') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Free Test Button</label>
+                    <input type="text" name="btn_free_test" class="form-control" value="{{ settings.get('btn_free_test', 'Free Test') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Buy Config Button</label>
+                    <input type="text" name="btn_buy_config" class="form-control" value="{{ settings.get('btn_buy_config', 'Buy Config') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">My Configs Button</label>
+                    <input type="text" name="btn_my_configs" class="form-control" value="{{ settings.get('btn_my_configs', 'My Configs') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Top Up Button</label>
+                    <input type="text" name="btn_topup" class="form-control" value="{{ settings.get('btn_topup', 'Top Up') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Transaction History Button</label>
+                    <input type="text" name="btn_tx_history" class="form-control" value="{{ settings.get('btn_tx_history', 'History') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Back Button</label>
+                    <input type="text" name="btn_back" class="form-control" value="{{ settings.get('btn_back', 'Back') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Back to Menu Button</label>
+                    <input type="text" name="btn_back_to_menu" class="form-control" value="{{ settings.get('btn_back_to_menu', 'Menu') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Wallet Payment Button</label>
+                    <input type="text" name="btn_wallet_payment" class="form-control" value="{{ settings.get('btn_wallet_payment', 'Pay with Wallet') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">C2C Payment Button</label>
+                    <input type="text" name="btn_c2c_payment" class="form-control" value="{{ settings.get('btn_c2c_payment', 'Card to Card') }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-dark mt-4">
+            <div class="card-header"><i class="bi bi-shield-lock"></i> Admin Menu Buttons</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Statistics Button</label>
+                    <input type="text" name="btn_admin_stats" class="form-control" value="{{ settings.get('btn_admin_stats', 'Statistics') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Receipts Button</label>
+                    <input type="text" name="btn_admin_receipts" class="form-control" value="{{ settings.get('btn_admin_receipts', 'Receipts') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Users Button</label>
+                    <input type="text" name="btn_admin_users" class="form-control" value="{{ settings.get('btn_admin_users', 'Users') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Settings Button</label>
+                    <input type="text" name="btn_admin_settings" class="form-control" value="{{ settings.get('btn_admin_settings', 'Settings') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Admins Button</label>
+                    <input type="text" name="btn_admin_admins" class="form-control" value="{{ settings.get('btn_admin_admins', 'Admins') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Plans Button</label>
+                    <input type="text" name="btn_admin_plans" class="form-control" value="{{ settings.get('btn_admin_plans', 'Plans') }}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Broadcast{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h3>Broadcast Message</h3>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card card-dark">
+            <div class="card-header"><i class="bi bi-megaphone"></i> Send to All Users</div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Message (HTML supported)</label>
+                        <textarea name="message" class="form-control" rows="8"
+                                  placeholder="Enter your broadcast message here...&#10;&#10;Supports HTML: &lt;b&gt;bold&lt;/b&gt;, &lt;i&gt;italic&lt;/i&gt;, &lt;a href='...'&gt;link&lt;/a&gt;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-indigo"
+                            onclick="return confirm('Send this message to all users?')">
+                        <i class="bi bi-send"></i> Broadcast
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card card-dark">
+            <div class="card-header"><i class="bi bi-info-circle"></i> Info</div>
+            <div class="card-body">
+                <p class="text-muted mb-2">The message will be sent to all registered users via the Telegram bot.</p>
+                <p class="text-muted mb-0">
+                    <strong>Supported formatting:</strong><br>
+                    <code>&lt;b&gt;bold&lt;/b&gt;</code><br>
+                    <code>&lt;i&gt;italic&lt;/i&gt;</code><br>
+                    <code>&lt;a href="url"&gt;link&lt;/a&gt;</code>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

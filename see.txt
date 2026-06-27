@@ -1,0 +1,1 @@
+{"client":{"email":"59yx81kqtc","subId":"hx2qwz0o8iglhxkz","id":"086e97dc-9801-44dd-a031-0a52ce6824c6","password":"ee8qmixlx3mlxub1","auth":"dvvo4n7mw2zp2nws","flow":"","security":"auto","totalGB":1073741824,"expiryTime":0,"reset":0,"limitIp":0,"tgId":0,"group":"","comment":"","enable":true},"inboundIds":[1]}
