@@ -1,0 +1,562 @@
+2026-06-27 16:49:11,166 - __main__ - INFO - Database initialized.
+2026-06-27 16:49:11,333 - __main__ - INFO - Bot starting polling...
+2026-06-27 16:49:11,335 - aiogram.dispatcher - INFO - Start polling
+2026-06-27 16:49:11,335 - scheduler - INFO - Scheduler started (interval=300s)
+2026-06-27 16:49:12,485 - aiogram.dispatcher - INFO - Run polling for bot @Nigshopbot id=8740044676 - 'NigVpn | Info'
+2026-06-27 16:49:12,869 - aiogram.event - INFO - Update id=531466025 is handled. Duration 223 ms by bot id=8740044676
+2026-06-27 16:49:13,359 - aiogram.event - INFO - Update id=531466027 is handled. Duration 711 ms by bot id=8740044676
+2026-06-27 16:49:13,404 - aiogram.event - INFO - Update id=531466026 is handled. Duration 757 ms by bot id=8740044676
+2026-06-27 16:49:19,647 - aiogram.event - INFO - Update id=531466028 is handled. Duration 280 ms by bot id=8740044676
+2026-06-27 16:49:22,325 - aiogram.event - INFO - Update id=531466029 is handled. Duration 796 ms by bot id=8740044676
+2026-06-27 16:49:23,752 - aiogram.event - INFO - Update id=531466030 is handled. Duration 197 ms by bot id=8740044676
+2026-06-27 16:49:26,211 - aiogram.event - INFO - Update id=531466031 is handled. Duration 217 ms by bot id=8740044676
+2026-06-27 16:49:31,856 - aiogram.event - INFO - Update id=531466032 is handled. Duration 311 ms by bot id=8740044676
+2026-06-27 16:49:36,058 - aiogram.event - INFO - Update id=531466033 is handled. Duration 199 ms by bot id=8740044676
+2026-06-27 16:49:36,252 - aiogram.event - INFO - Update id=531466034 is handled. Duration 202 ms by bot id=8740044676
+2026-06-27 16:49:37,446 - aiogram.event - INFO - Update id=531466035 is handled. Duration 180 ms by bot id=8740044676
+2026-06-27 16:49:38,031 - aiogram.event - INFO - Update id=531466036 is handled. Duration 197 ms by bot id=8740044676
+2026-06-27 16:49:39,549 - aiogram.event - INFO - Update id=531466037 is handled. Duration 231 ms by bot id=8740044676
+2026-06-27 16:49:46,211 - aiogram.event - INFO - Update id=531466038 is handled. Duration 215 ms by bot id=8740044676
+2026-06-27 16:49:47,627 - aiogram.event - INFO - Update id=531466039 is handled. Duration 186 ms by bot id=8740044676
+2026-06-27 16:49:50,835 - aiogram.event - INFO - Update id=531466040 is handled. Duration 193 ms by bot id=8740044676
+2026-06-27 16:49:51,945 - aiogram.event - INFO - Update id=531466041 is handled. Duration 193 ms by bot id=8740044676
+2026-06-27 16:50:09,533 - aiogram.event - INFO - Update id=531466042 is handled. Duration 205 ms by bot id=8740044676
+2026-06-27 16:50:10,857 - aiogram.event - INFO - Update id=531466043 is handled. Duration 193 ms by bot id=8740044676
+2026-06-27 16:50:11,902 - aiogram.event - INFO - Update id=531466044 is handled. Duration 198 ms by bot id=8740044676
+2026-06-27 16:50:15,455 - aiogram.event - INFO - Update id=531466045 is handled. Duration 185 ms by bot id=8740044676
+2026-06-27 16:50:20,008 - aiogram.event - INFO - Update id=531466046 is handled. Duration 322 ms by bot id=8740044676
+2026-06-27 16:50:34,437 - aiogram.event - INFO - Update id=531466047 is handled. Duration 379 ms by bot id=8740044676
+2026-06-27 16:50:44,370 - aiogram.event - INFO - Update id=531466048 is handled. Duration 191 ms by bot id=8740044676
+2026-06-27 16:50:46,667 - aiogram.event - INFO - Update id=531466049 is handled. Duration 175 ms by bot id=8740044676
+2026-06-27 16:50:48,586 - aiogram.event - INFO - Update id=531466050 is handled. Duration 385 ms by bot id=8740044676
+2026-06-27 16:50:51,281 - aiogram.event - INFO - Update id=531466051 is handled. Duration 410 ms by bot id=8740044676
+2026-06-27 16:50:58,116 - aiogram.event - INFO - Update id=531466052 is handled. Duration 2926 ms by bot id=8740044676
+2026-06-27 16:51:06,331 - aiogram.event - INFO - Update id=531466053 is handled. Duration 369 ms by bot id=8740044676
+2026-06-27 16:51:58,039 - aiogram.event - INFO - Update id=531466054 is handled. Duration 206 ms by bot id=8740044676
+2026-06-27 16:52:06,771 - aiogram.dispatcher - INFO - Polling stopped
+2026-06-27 16:52:06,771 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-06-27 16:52:06,772 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8740044676)
+2026-06-27 16:52:07,023 - aiogram.dispatcher - INFO - Polling stopped for bot @Nigshopbot id=8740044676 - 'NigVpn | Info'
+2026-06-27 17:19:12,987 - __main__ - INFO - Database initialized.
+2026-06-27 17:19:13,149 - __main__ - INFO - Bot starting polling...
+2026-06-27 17:19:13,151 - aiogram.dispatcher - INFO - Start polling
+2026-06-27 17:19:13,151 - scheduler - INFO - Scheduler started (interval=300s)
+2026-06-27 17:19:14,175 - aiogram.dispatcher - INFO - Run polling for bot @Nigshopbot id=8740044676 - 'NigVpn | Info'
+2026-06-27 17:19:15,128 - aiogram.event - INFO - Update id=531466055 is handled. Duration 803 ms by bot id=8740044676
+2026-06-27 17:19:27,525 - aiogram.event - INFO - Update id=531466056 is handled. Duration 2300 ms by bot id=8740044676
+2026-06-27 17:19:40,705 - aiogram.event - INFO - Update id=531466057 is handled. Duration 419 ms by bot id=8740044676
+2026-06-27 17:19:44,778 - aiogram.event - INFO - Update id=531466058 is handled. Duration 193 ms by bot id=8740044676
+2026-06-27 17:19:50,103 - aiogram.event - INFO - Update id=531466059 is handled. Duration 189 ms by bot id=8740044676
+2026-06-27 17:19:53,758 - aiogram.event - INFO - Update id=531466060 is handled. Duration 320 ms by bot id=8740044676
+2026-06-27 17:19:55,310 - aiogram.event - INFO - Update id=531466061 is handled. Duration 203 ms by bot id=8740044676
+2026-06-27 17:19:56,245 - aiogram.event - INFO - Update id=531466062 is handled. Duration 165 ms by bot id=8740044676
+2026-06-27 17:19:58,390 - aiogram.event - INFO - Update id=531466063 is handled. Duration 213 ms by bot id=8740044676
+2026-06-27 17:20:15,787 - aiogram.event - INFO - Update id=531466064 is not handled. Duration 188 ms by bot id=8740044676
+2026-06-27 17:20:15,787 - aiogram.event - ERROR - Cause exception while process update id=531466064 by bot id=8740044676
+TelegramBadRequest: Telegram server says - Bad Request: ENTITY_TEXT_INVALID
+Traceback (most recent call last):
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 320, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 164, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 58, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\fsm\middleware.py", line 43, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 126, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 71, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 165, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 157, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 193, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 165, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 157, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 185, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 126, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\middlewares\__init__.py", line 24, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\middlewares\__init__.py", line 41, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 71, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\handlers\wallet.py", line 26, in cb_wallet
+    await callback.message.edit_text(
+    ...<2 lines>...
+    )
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\methods\base.py", line 82, in emit
+    return await bot(self)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\bot.py", line 509, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\base.py", line 259, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    response = self.check_response(
+        bot=bot,
+    ...<2 lines>...
+        content=raw_result,
+    )
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\base.py", line 121, in check_response
+    raise TelegramBadRequest(method=method, message=description)
+aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: ENTITY_TEXT_INVALID
+2026-06-27 17:21:05,692 - aiogram.event - INFO - Update id=531466065 is handled. Duration 3428 ms by bot id=8740044676
+2026-06-27 17:21:08,374 - aiogram.event - INFO - Update id=531466066 is handled. Duration 478 ms by bot id=8740044676
+2026-06-27 17:21:10,026 - aiogram.event - INFO - Update id=531466067 is not handled. Duration 249 ms by bot id=8740044676
+2026-06-27 17:21:10,026 - aiogram.event - ERROR - Cause exception while process update id=531466067 by bot id=8740044676
+TelegramBadRequest: Telegram server says - Bad Request: ENTITY_TEXT_INVALID
+Traceback (most recent call last):
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 320, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 164, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 58, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\fsm\middleware.py", line 43, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 126, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 71, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 165, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 157, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 193, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 165, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 157, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 185, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 126, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\middlewares\__init__.py", line 24, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\middlewares\__init__.py", line 41, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 71, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\handlers\wallet.py", line 26, in cb_wallet
+    await callback.message.edit_text(
+    ...<2 lines>...
+    )
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\methods\base.py", line 82, in emit
+    return await bot(self)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\bot.py", line 509, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\base.py", line 259, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    response = self.check_response(
+        bot=bot,
+    ...<2 lines>...
+        content=raw_result,
+    )
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\base.py", line 121, in check_response
+    raise TelegramBadRequest(method=method, message=description)
+aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: ENTITY_TEXT_INVALID
+2026-06-27 17:21:16,510 - aiogram.event - INFO - Update id=531466068 is handled. Duration 197 ms by bot id=8740044676
+2026-06-27 17:21:18,511 - aiogram.event - INFO - Update id=531466069 is handled. Duration 205 ms by bot id=8740044676
+2026-06-27 17:21:19,548 - aiogram.event - INFO - Update id=531466070 is handled. Duration 213 ms by bot id=8740044676
+2026-06-27 17:21:22,125 - aiogram.event - INFO - Update id=531466071 is handled. Duration 216 ms by bot id=8740044676
+2026-06-27 17:21:23,676 - aiogram.event - INFO - Update id=531466072 is handled. Duration 201 ms by bot id=8740044676
+2026-06-27 17:21:25,825 - aiogram.event - INFO - Update id=531466073 is handled. Duration 208 ms by bot id=8740044676
+2026-06-27 17:21:28,083 - aiogram.event - INFO - Update id=531466074 is handled. Duration 200 ms by bot id=8740044676
+2026-06-27 17:21:29,410 - aiogram.event - INFO - Update id=531466075 is handled. Duration 216 ms by bot id=8740044676
+2026-06-27 17:21:33,572 - aiogram.event - INFO - Update id=531466076 is handled. Duration 206 ms by bot id=8740044676
+2026-06-27 17:21:34,688 - aiogram.event - INFO - Update id=531466077 is handled. Duration 178 ms by bot id=8740044676
+2026-06-27 17:21:35,853 - aiogram.event - INFO - Update id=531466078 is handled. Duration 207 ms by bot id=8740044676
+2026-06-27 17:21:36,573 - aiogram.event - INFO - Update id=531466079 is handled. Duration 171 ms by bot id=8740044676
+2026-06-27 17:21:39,201 - aiogram.event - INFO - Update id=531466080 is not handled. Duration 161 ms by bot id=8740044676
+2026-06-27 17:21:39,201 - aiogram.event - ERROR - Cause exception while process update id=531466080 by bot id=8740044676
+TelegramBadRequest: Telegram server says - Bad Request: can't parse entities: Can't find end of the entity starting at byte offset 102
+Traceback (most recent call last):
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 320, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 164, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 58, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\fsm\middleware.py", line 43, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 126, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 71, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 165, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 157, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 193, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 165, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 157, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 185, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 126, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\middlewares\__init__.py", line 24, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\middlewares\__init__.py", line 41, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 71, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\handlers\user.py", line 365, in cb_config_detail
+    await callback.message.edit_text(
+    ...<6 lines>...
+    )
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\methods\base.py", line 82, in emit
+    return await bot(self)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\bot.py", line 509, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\base.py", line 259, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    response = self.check_response(
+        bot=bot,
+    ...<2 lines>...
+        content=raw_result,
+    )
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\base.py", line 121, in check_response
+    raise TelegramBadRequest(method=method, message=description)
+aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: can't parse entities: Can't find end of the entity starting at byte offset 102
+2026-06-27 17:21:42,911 - aiogram.event - INFO - Update id=531466081 is handled. Duration 196 ms by bot id=8740044676
+2026-06-27 17:21:43,976 - aiogram.event - INFO - Update id=531466082 is not handled. Duration 186 ms by bot id=8740044676
+2026-06-27 17:21:43,976 - aiogram.event - ERROR - Cause exception while process update id=531466082 by bot id=8740044676
+TelegramBadRequest: Telegram server says - Bad Request: ENTITY_TEXT_INVALID
+Traceback (most recent call last):
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 320, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 164, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 58, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\fsm\middleware.py", line 43, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 126, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 71, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 165, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 157, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 193, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 165, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 157, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 185, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 126, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\middlewares\__init__.py", line 24, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\middlewares\__init__.py", line 41, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 71, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\handlers\wallet.py", line 26, in cb_wallet
+    await callback.message.edit_text(
+    ...<2 lines>...
+    )
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\methods\base.py", line 82, in emit
+    return await bot(self)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\bot.py", line 509, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\base.py", line 259, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    response = self.check_response(
+        bot=bot,
+    ...<2 lines>...
+        content=raw_result,
+    )
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\base.py", line 121, in check_response
+    raise TelegramBadRequest(method=method, message=description)
+aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: ENTITY_TEXT_INVALID
+2026-06-27 17:26:04,637 - aiogram.event - INFO - Update id=531466083 is handled. Duration 262 ms by bot id=8740044676
+2026-06-27 17:26:05,962 - aiogram.event - INFO - Update id=531466084 is not handled. Duration 175 ms by bot id=8740044676
+2026-06-27 17:26:05,962 - aiogram.event - ERROR - Cause exception while process update id=531466084 by bot id=8740044676
+TelegramBadRequest: Telegram server says - Bad Request: ENTITY_TEXT_INVALID
+Traceback (most recent call last):
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 320, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 164, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 58, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\fsm\middleware.py", line 43, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 126, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 71, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 283, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 165, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 157, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 193, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 165, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 157, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\router.py", line 185, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 126, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\middlewares\__init__.py", line 24, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\middlewares\__init__.py", line 41, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 71, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\Desktop\3x-ui\handlers\wallet.py", line 26, in cb_wallet
+    await callback.message.edit_text(
+    ...<2 lines>...
+    )
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\methods\base.py", line 82, in emit
+    return await bot(self)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\bot.py", line 509, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\base.py", line 259, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    response = self.check_response(
+        bot=bot,
+    ...<2 lines>...
+        content=raw_result,
+    )
+  File "C:\Users\Elyas\AppData\Local\Programs\Python\Python314\Lib\site-packages\aiogram\client\session\base.py", line 121, in check_response
+    raise TelegramBadRequest(method=method, message=description)
+aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: ENTITY_TEXT_INVALID
+2026-06-27 17:26:09,993 - aiogram.dispatcher - INFO - Polling stopped
+2026-06-27 17:26:09,994 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-06-27 17:26:09,994 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8740044676)
+2026-06-27 17:26:10,246 - aiogram.dispatcher - INFO - Polling stopped for bot @Nigshopbot id=8740044676 - 'NigVpn | Info'
+2026-06-27 17:26:13,284 - __main__ - INFO - Database initialized.
+2026-06-27 17:26:13,446 - __main__ - INFO - Bot starting polling...
+2026-06-27 17:26:13,447 - aiogram.dispatcher - INFO - Start polling
+2026-06-27 17:26:13,448 - scheduler - INFO - Scheduler started (interval=300s)
+2026-06-27 17:26:14,460 - aiogram.dispatcher - INFO - Run polling for bot @Nigshopbot id=8740044676 - 'NigVpn | Info'
+2026-06-27 17:26:20,152 - aiogram.event - INFO - Update id=531466085 is handled. Duration 209 ms by bot id=8740044676
+2026-06-27 17:26:22,141 - aiogram.event - INFO - Update id=531466086 is handled. Duration 201 ms by bot id=8740044676
+2026-06-27 17:26:29,683 - aiogram.event - INFO - Update id=531466087 is handled. Duration 184 ms by bot id=8740044676
+2026-06-27 17:26:34,985 - aiogram.event - INFO - Update id=531466088 is handled. Duration 190 ms by bot id=8740044676
+2026-06-27 17:26:39,934 - aiogram.event - INFO - Update id=531466089 is handled. Duration 189 ms by bot id=8740044676
+2026-06-27 17:26:47,889 - aiogram.event - INFO - Update id=531466090 is handled. Duration 443 ms by bot id=8740044676
+2026-06-27 17:26:51,246 - aiogram.event - INFO - Update id=531466091 is handled. Duration 199 ms by bot id=8740044676
+2026-06-27 17:26:53,031 - aiogram.event - INFO - Update id=531466092 is handled. Duration 186 ms by bot id=8740044676
+2026-06-27 17:26:55,323 - aiogram.event - INFO - Update id=531466093 is handled. Duration 400 ms by bot id=8740044676
+2026-06-27 17:26:55,894 - aiogram.event - INFO - Update id=531466094 is handled. Duration 807 ms by bot id=8740044676
+2026-06-27 17:26:58,215 - aiogram.event - INFO - Update id=531466096 is handled. Duration 178 ms by bot id=8740044676
+2026-06-27 17:26:58,301 - aiogram.event - INFO - Update id=531466095 is handled. Duration 406 ms by bot id=8740044676
+2026-06-27 17:26:59,370 - aiogram.event - INFO - Update id=531466097 is handled. Duration 256 ms by bot id=8740044676
+2026-06-27 17:27:03,650 - aiogram.event - INFO - Update id=531466098 is handled. Duration 166 ms by bot id=8740044676
+2026-06-27 17:30:06,985 - aiogram.dispatcher - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-06-27 17:30:06,985 - aiogram.dispatcher - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8740044676)
+2026-06-27 17:30:19,615 - aiogram.dispatcher - INFO - Connection established (tryings = 1, bot id = 8740044676)
+2026-06-27 19:08:30,712 - __main__ - INFO - Database initialized.
+2026-06-27 19:08:30,881 - __main__ - INFO - Bot starting polling...
+2026-06-27 19:08:30,884 - aiogram.dispatcher - INFO - Start polling
+2026-06-27 19:08:30,884 - scheduler - INFO - Scheduler started (interval=300s)
+2026-06-27 19:08:51,927 - aiogram.dispatcher - INFO - Polling stopped
+2026-06-27 19:09:04,214 - __main__ - INFO - Database initialized.
+2026-06-27 19:09:04,376 - __main__ - INFO - Bot starting polling...
+2026-06-27 19:09:04,377 - aiogram.dispatcher - INFO - Start polling
+2026-06-27 19:09:04,377 - scheduler - INFO - Scheduler started (interval=300s)
+2026-06-27 19:09:25,384 - aiogram.dispatcher - INFO - Polling stopped
+2026-06-27 19:16:29,366 - __main__ - INFO - Database initialized.
+2026-06-27 19:16:29,528 - __main__ - INFO - Bot starting polling...
+2026-06-27 19:16:29,529 - aiogram.dispatcher - INFO - Start polling
+2026-06-27 19:16:29,530 - scheduler - INFO - Scheduler started (interval=300s)
+2026-06-27 19:16:30,539 - aiogram.dispatcher - INFO - Run polling for bot @Nigshopbot id=8740044676 - 'NigVpn | Info'
+2026-06-27 19:16:30,700 - aiogram.event - INFO - Update id=531466101 is not handled. Duration 7 ms by bot id=8740044676
+2026-06-27 19:16:31,347 - aiogram.event - INFO - Update id=531466102 is handled. Duration 654 ms by bot id=8740044676
+2026-06-27 19:16:31,372 - aiogram.event - INFO - Update id=531466100 is handled. Duration 680 ms by bot id=8740044676
+2026-06-27 19:16:31,414 - aiogram.event - INFO - Update id=531466099 is handled. Duration 722 ms by bot id=8740044676
+2026-06-27 19:16:31,741 - aiogram.event - INFO - Update id=531466103 is handled. Duration 238 ms by bot id=8740044676
+2026-06-27 19:16:40,434 - aiogram.event - INFO - Update id=531466104 is handled. Duration 291 ms by bot id=8740044676
+2026-06-27 19:17:03,197 - aiogram.event - INFO - Update id=531466105 is handled. Duration 271 ms by bot id=8740044676
