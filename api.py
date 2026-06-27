@@ -1,10 +1,13 @@
 import uuid
 import json
 import re
+import logging
 import aiohttp
 from urllib.parse import urlencode
 from datetime import datetime, timedelta
 import web_db
+
+logger = logging.getLogger(__name__)
 
 
 class PanelAPI:
@@ -99,7 +102,7 @@ class PanelAPI:
                     if data.get("success"):
                         return True
         except Exception as e:
-            print(f"Panel login error: {e}")
+            logger.error(f"Panel login error: {e}")
         return False
 
     async def _get(self, path: str) -> dict | None:
@@ -125,7 +128,7 @@ class PanelAPI:
                             if retry_resp.status == 200:
                                 return await retry_resp.json()
         except Exception as e:
-            print(f"Panel GET error: {e}")
+            logger.error(f"Panel GET error: {e}")
         return None
 
     async def _post(self, path: str, data: dict | None = None, use_json: bool = True) -> dict | None:
@@ -150,7 +153,7 @@ class PanelAPI:
                             if retry_resp.status == 200:
                                 return await retry_resp.json()
         except Exception as e:
-            print(f"Panel POST error: {e}")
+            logger.error(f"Panel POST error: {e}")
         return None
 
     async def get_inbounds(self) -> list:
@@ -181,29 +184,34 @@ class PanelAPI:
         if days > 0:
             expiry_time = int((datetime.utcnow() + timedelta(days=days)).timestamp() * 1000)
 
-        client_payload = {
-            "client": {
-                "email": email,
-                "subId": sub_id,
-                "id": user_uuid,
-                "password": "",
-                "auth": "",
-                "flow": "",
-                "security": "auto",
-                "totalGB": total_bytes,
-                "expiryTime": expiry_time,
-                "reset": 0,
-                "limitIp": 0,
-                "tgId": 0,
-                "group": "",
-                "comment": "",
-                "enable": True,
-            },
-            "inboundIds": inbound_ids,
-        }
+        success_count = 0
+        for inbound_id in inbound_ids:
+            client_payload = {
+                "client": {
+                    "email": email,
+                    "subId": sub_id,
+                    "id": user_uuid,
+                    "password": "",
+                    "auth": "",
+                    "flow": "",
+                    "security": "auto",
+                    "totalGB": total_bytes,
+                    "expiryTime": expiry_time,
+                    "reset": 0,
+                    "limitIp": 0,
+                    "tgId": 0,
+                    "group": "",
+                    "comment": "",
+                    "enable": True,
+                },
+                "inboundIds": [inbound_id],
+            }
 
-        result = await self._post("/panel/api/clients/add", client_payload)
-        if result and result.get("success"):
+            result = await self._post("/panel/api/clients/add", client_payload)
+            if result and result.get("success"):
+                success_count += 1
+
+        if success_count > 0:
             return {"uuid": user_uuid, "sub_id": sub_id, "email": email}
         return None
 
@@ -223,7 +231,7 @@ class PanelAPI:
                 inbound_ids = [vid]
 
         if not inbound_ids:
-            print("No inbounds configured")
+            logger.error("No inbounds configured")
             return None
 
         result = await self.add_client(inbound_ids, email, total_gb=total_gb, days=days)
@@ -237,7 +245,7 @@ class PanelAPI:
                 "expire_date": expire_date,
             }
 
-        print("Failed to add client")
+        logger.error("Failed to add client to panel")
         return None
 
     async def create_test_config(self, email: str, total_mb: int = 102400) -> dict | None:
@@ -248,7 +256,7 @@ class PanelAPI:
                 inbound_ids = [vid]
 
         if not inbound_ids:
-            print("No inbounds configured")
+            logger.error("No inbounds configured")
             return None
 
         total_gb = total_mb / 1024
@@ -263,7 +271,7 @@ class PanelAPI:
                 "expire_date": expire_date,
             }
 
-        print("Failed to add test client")
+        logger.error("Failed to add test client to panel")
         return None
 
     async def get_client_configs(self, email: str) -> list:
