@@ -3,7 +3,7 @@
 {% block content %}
 <div class="page-header d-flex justify-content-between align-items-center">
     <h3>Bot Settings</h3>
-    <button type="submit" form="settingsForm" class="btn btn-indigo">
+    <button type="submit" form="settingsForm" class="btn btn-success">
         <i class="bi bi-check-lg"></i> Save All Changes
     </button>
 </div>
@@ -82,6 +82,31 @@
                 <div class="mb-3">
                     <label class="form-label">Auto-Approve Max Amount (0 = disabled)</label>
                     <input type="number" name="auto_approve_max" class="form-control" value="{{ settings.get('auto_approve_max', '0') }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-dark mt-4">
+            <div class="card-header"><i class="bi bi-hdd-network"></i> 3x-UI Panel</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Panel URL</label>
+                    <input type="text" name="panel_url" class="form-control" placeholder="https://your-panel.com" value="{{ settings.get('panel_url', '') }}">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Panel Username</label>
+                        <input type="text" name="panel_user" class="form-control" value="{{ settings.get('panel_user', '') }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Panel Password</label>
+                        <input type="password" name="panel_pass" class="form-control" value="{{ settings.get('panel_pass', '') }}">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Sub Link Template</label>
+                    <input type="text" name="sub_link_template" class="form-control" placeholder="https://domain:2096/sub/{sub_id}" value="{{ settings.get('sub_link_template', '') }}">
+                    <div class="form-text">Leave empty for auto-detect. Use {sub_id} as placeholder.</div>
                 </div>
             </div>
         </div>

@@ -4,15 +4,26 @@ import re
 import aiohttp
 from urllib.parse import urlencode
 from datetime import datetime, timedelta
-from config import PANEL_URL, PANEL_USER, PANEL_PASS
+import web_db
 
 
 class PanelAPI:
     def __init__(self):
-        self.panel_url = PANEL_URL.rstrip("/")
+        self.panel_url = ""
+        self.panel_user = ""
+        self.panel_pass = ""
+        self.sub_link_template = ""
         self.base_path = ""
         self.session: aiohttp.ClientSession | None = None
         self.csrf_token: str = ""
+        self.reload_config()
+
+    def reload_config(self):
+        self.panel_url = (web_db.get_setting("panel_url") or "").rstrip("/")
+        self.panel_user = web_db.get_setting("panel_user") or ""
+        self.panel_pass = web_db.get_setting("panel_pass") or ""
+        self.sub_link_template = web_db.get_setting("sub_link_template") or ""
+        self.base_path = ""
         self._extract_base_path()
 
     def _extract_base_path(self):
@@ -72,7 +83,7 @@ class PanelAPI:
 
             async with session.post(
                 f"{self.panel_url}/login",
-                data=urlencode({"username": PANEL_USER, "password": PANEL_PASS}),
+                data=urlencode({"username": self.panel_user, "password": self.panel_pass}),
                 headers=self._headers(),
                 ssl=False,
                 timeout=aiohttp.ClientTimeout(total=10),
@@ -191,6 +202,8 @@ class PanelAPI:
         return None
 
     def get_sub_link(self, email: str, sub_id: str) -> str:
+        if self.sub_link_template:
+            return self.sub_link_template.replace("{sub_id}", sub_id)
         import re
         match = re.search(r"https?://([^:/]+)", self.panel_url)
         host = match.group(1) if match else "localhost"

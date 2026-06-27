@@ -9,7 +9,7 @@
         <form method="GET" class="d-flex gap-2">
             <input type="text" name="q" class="form-control" placeholder="Search by ID, username, or name..."
                    value="{{ search or '' }}">
-            <button type="submit" class="btn btn-indigo"><i class="bi bi-search"></i> Search</button>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Search</button>
             {% if search %}
             <a href="{{ url_for('users') }}" class="btn btn-outline-secondary">Clear</a>
             {% endif %}

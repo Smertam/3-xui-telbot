@@ -64,6 +64,8 @@ def settings():
             if key.startswith("_"):
                 continue
             web_db.set_setting(key, request.form[key])
+        from api import panel_api
+        panel_api.reload_config()
         flash("Settings saved successfully!", "success")
         return redirect(url_for("settings"))
     all_settings = web_db.get_all_settings()

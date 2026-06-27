@@ -102,6 +102,10 @@ async def init_db():
         "free_test_mb": "102400",
         "free_test_enabled": "1",
         "auto_approve_max": "0",
+        "panel_url": "",
+        "panel_user": "",
+        "panel_pass": "",
+        "sub_link_template": "",
     }
     for key, value in defaults.items():
         existing = await db.execute("SELECT key FROM settings WHERE key = ?", (key,))
