@@ -150,14 +150,16 @@ async def cb_buy_config(callback: CallbackQuery):
     if not user:
         await callback.answer("لطفاً ابتدا /start را بزنید", show_alert=True)
         return
-    await callback.message.edit_text(
+    text = (
         "━━━━━━━━━━━━━━━━━━━━\n"
         "  🛒 <b>خرید کانفیگ</b>\n"
         "━━━━━━━━━━━━━━━━━━━━\n\n"
-        "  پلن مورد نظر خود را انتخاب کنید:",
-        parse_mode="HTML",
-        reply_markup=await plans_menu(),
+        "  پلن مورد نظر خود را انتخاب کنید:"
     )
+    try:
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=await plans_menu())
+    except Exception:
+        await callback.message.answer(text, parse_mode="HTML", reply_markup=await plans_menu())
 
 
 @router.callback_query(F.data.startswith("select_plan_"))
@@ -169,7 +171,7 @@ async def cb_select_plan(callback: CallbackQuery):
         return
 
     symbol = await get_setting("currency_symbol") or "تومان"
-    await callback.message.edit_text(
+    text = (
         f"━━━━━━━━━━━━━━━━━━━━\n"
         f"  📦 <b>{plan['name']}</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
@@ -177,10 +179,12 @@ async def cb_select_plan(callback: CallbackQuery):
         f"  📅 مدت: <b>{plan['days']} روز</b>\n"
         f"  💰 قیمت: <b>{plan['price']:,} {symbol}</b>\n\n"
         f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"  روش پرداخت را انتخاب کنید:",
-        parse_mode="HTML",
-        reply_markup=await payment_method_menu(plan_id),
+        f"  روش پرداخت را انتخاب کنید:"
     )
+    try:
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=await payment_method_menu(plan_id))
+    except Exception:
+        await callback.message.answer(text, parse_mode="HTML", reply_markup=await payment_method_menu(plan_id))
 
 
 @router.callback_query(F.data.startswith("pay_wallet_"))
@@ -196,11 +200,11 @@ async def cb_pay_wallet(callback: CallbackQuery):
     symbol = await get_setting("currency_symbol") or "تومان"
 
     if user["balance"] < plan["price"]:
-        await callback.message.edit_text(
-            await no_balance(plan["price"], user["balance"], symbol),
-            parse_mode="HTML",
-            reply_markup=await back_to_menu(),
-        )
+        text = await no_balance(plan["price"], user["balance"], symbol)
+        try:
+            await callback.message.edit_text(text, parse_mode="HTML", reply_markup=await back_to_menu())
+        except Exception:
+            await callback.message.answer(text, parse_mode="HTML", reply_markup=await back_to_menu())
         return
 
     from database import update_balance
@@ -213,9 +217,14 @@ async def cb_pay_wallet(callback: CallbackQuery):
     result = await panel_api.create_config(email, days=plan["days"], total_gb=plan["gb"])
     if not result:
         await update_balance(user_id, plan["price"])
-        await callback.message.edit_text(
-            "ساخت کانفیگ ناموفق بود. موجودی بازگردانده شد.", reply_markup=await back_to_menu(),
-        )
+        try:
+            await callback.message.edit_text(
+                "ساخت کانفیگ ناموفق بود. موجودی بازگردانده شد.", reply_markup=await back_to_menu(),
+            )
+        except Exception:
+            await callback.message.answer(
+                "ساخت کانفیگ ناموفق بود. موجودی بازگردانده شد.", reply_markup=await back_to_menu(),
+            )
         return
 
     await add_config(

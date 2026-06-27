@@ -23,10 +23,10 @@ async def cb_wallet(callback: CallbackQuery, state: FSMContext):
         return
     symbol = await get_setting("currency_symbol") or "تومان"
     text = await wallet_text(user["balance"], symbol)
-    await callback.message.edit_text(
-        text,
-        reply_markup=await wallet_menu(),
-    )
+    try:
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=await wallet_menu())
+    except Exception:
+        await callback.message.answer(text, parse_mode="HTML", reply_markup=await wallet_menu())
 
 
 @router.callback_query(F.data == "topup")
