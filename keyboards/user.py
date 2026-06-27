@@ -64,7 +64,7 @@ async def plans_menu() -> InlineKeyboardMarkup:
     buttons = []
     for p in plans:
         buttons.append([InlineKeyboardButton(
-            text=f"{p['name']} | {p['gb']}GB | {p['days']}D | {p['price']:,} {symbol}",
+            text=f"📦 {p['name']} — {p['gb']}GB / {p['days']}D — {p['price']:,} {symbol}",
             callback_data=f"select_plan_{p['id']}",
         )])
     back = await get_setting("btn_back")
@@ -76,7 +76,7 @@ async def config_detail(config_id: int) -> InlineKeyboardMarkup:
     back = await get_setting("btn_back")
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [await _btn("Copy Link", f"copy_link_{config_id}", "copy")],
+            [await _btn("Copy Sub Link", f"copy_link_{config_id}", "copy")],
             [await _btn(back, "my_configs", "back")],
         ]
     )

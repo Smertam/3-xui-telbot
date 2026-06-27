@@ -5,155 +5,179 @@ from utils.premium_emoji import pe
 
 
 async def wallet_text(balance: float, symbol: str = "تومان") -> str:
-    e = await pe("money")
     return (
-        f"{e} <b>کیف پول شما</b>\n\n"
-        f"موجودی: <b>{balance:,.0f} {symbol}</b>\n\n"
-        f"با آپلود رسید پرداخت، کیف پول خود را شارژ کنید"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  💰 <b>My Wallet</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  Balance: <b>{balance:,.0f} {symbol}</b>\n\n"
+        f"  Upload a payment receipt to top up."
     )
 
 
 async def receipt_submitted(amount: float, symbol: str = "تومان") -> str:
-    e = await pe("check")
     return (
-        f"{e} <b>رسید ارسال شد!</b>\n\n"
-        f"مبلغ: <b>{amount:,.0f} {symbol}</b>\n"
-        f"وضعیت: در انتظار تایید\n\n"
-        f"پس از بررسی توسط ادمین، به شما اطلاع داده خواهد شد."
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  ✅ <b>Receipt Submitted</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  Amount: <b>{amount:,.0f} {symbol}</b>\n"
+        f"  Status: <b>Pending Review</b>\n\n"
+        f"  Admins will review your receipt."
     )
 
 
 async def receipt_approved(amount: float, new_balance: float, symbol: str = "تومان") -> str:
-    e = await pe("success")
     return (
-        f"{e} <b>رسید تایید شد!</b>\n\n"
-        f"مبلغ اضافه شده: <b>{amount:,.0f} {symbol}</b>\n"
-        f"موجودی جدید: <b>{new_balance:,.0f} {symbol}</b>"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  ✅ <b>Receipt Approved!</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  Added: <b>{amount:,.0f} {symbol}</b>\n"
+        f"  New Balance: <b>{new_balance:,.0f} {symbol}</b>"
     )
 
 
 async def receipt_rejected(amount: float, symbol: str = "تومان") -> str:
-    e = await pe("cross")
     return (
-        f"{e} <b>رسید رد شد</b>\n\n"
-        f"مبلغ: <b>{amount:,.0f} {symbol}</b>\n"
-        f"برای اطلاعات بیشتر با ادمین تماس بگیرید."
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  ❌ <b>Receipt Rejected</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  Amount: <b>{amount:,.0f} {symbol}</b>\n\n"
+        f"  Contact admin for more info."
     )
 
 
 async def config_created(sub_link: str, expire_date: str, price: int, plan_name: str, gb: int, days: int, symbol: str = "تومان") -> str:
-    e_check = await pe("success")
-    e_pkg = await pe("package")
-    e_money = await pe("money")
-    e_link = await pe("link")
-    e_cal = await pe("calendar")
     return (
-        f"{e_check} <b>کانفیگ ساخته شد!</b>\n\n"
-        f"{e_pkg} پلن: <b>{plan_name}</b> ({gb}GB / {days} روز)\n"
-        f"{e_money} پرداخت: <b>{price:,} {symbol}</b>\n\n"
-        f"{e_link} لینک اشتراک:\n`{sub_link}`\n\n"
-        f"{e_cal} انقضا: {expire_date}\n\n"
-        f"QR کد را اسکن کنید یا لینک بالا را کپی نمایید."
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  ✅ <b>Config Created!</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  📦 Plan: <b>{plan_name}</b>\n"
+        f"  📊 Volume: <b>{gb} GB</b>\n"
+        f"  📅 Duration: <b>{days} days</b>\n"
+        f"  💰 Price: <b>{price:,} {symbol}</b>\n"
+        f"  ⏰ Expires: <b>{expire_date}</b>\n\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  🔗 Sub Link:\n"
+        f"<code>{sub_link}</code>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"Scan the QR code or copy the link above."
     )
 
 
 async def free_test_config(sub_link: str, days: int) -> str:
-    e_link = await pe("link")
-    e_cal = await pe("calendar")
     return (
-        f"\U0001f195 <b>کانفیگ تست رایگان</b>\n\n"
-        f"{e_link} لینک اشتراک:\n`{sub_link}`\n\n"
-        f"{e_cal} اعتبار: {days} روز | 100MB\n\n"
-        f"QR کد را اسکن کنید یا لینک بالا را کپی نمایید.\n\n"
-        f"<i>این تست رایگان شماست. برای ادامه، کانفیگ کامل بخرید.</i>"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  🆓 <b>Free Test Config</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  📊 Volume: <b>100 MB</b>\n"
+        f"  📅 Duration: <b>{days} day</b>\n\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  🔗 Sub Link:\n"
+        f"<code>{sub_link}</code>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"Scan the QR code or copy the link above.\n\n"
+        f"<i>This is your free trial. Buy a full config to continue.</i>"
     )
 
 
 async def no_balance(price: int, balance: float, symbol: str = "تومان") -> str:
-    e = await pe("cross")
     return (
-        f"{e} <b>موجودی ناکافی</b>\n\n"
-        f"قیمت کانفیگ: <b>{price:,} {symbol}</b>\n"
-        f"موجودی شما: <b>{balance:,.0f} {symbol}</b>\n\n"
-        f"ابتدا کیف پول خود را شارژ کنید."
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  ❌ <b>Insufficient Balance</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  Config Price: <b>{price:,} {symbol}</b>\n"
+        f"  Your Balance: <b>{balance:,.0f} {symbol}</b>\n\n"
+        f"  Top up your wallet first."
     )
 
 
 async def config_list_text(configs: list[dict]) -> str:
-    e_dash = await pe("dashboard")
     if not configs:
-        return f"{e_dash} <b>کانفیگ‌های من</b>\n\nکانفیگ فعالی ندارید."
-    text = f"{e_dash} <b>کانفیگ‌های من</b>\n\n"
+        return (
+            f"━━━━━━━━━━━━━━━━━━━━\n"
+            f"  📋 <b>My Configs</b>\n"
+            f"━━━━━━━━━━━━━━━━━━━━\n\n"
+            f"  No active configs.\n"
+            f"  Buy a config to get started!"
+        )
+    text = (
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  📋 <b>My Configs</b> ({len(configs)})\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+    )
     for i, cfg in enumerate(configs, 1):
-        status = "\u2705" if cfg["is_active"] else "\u274c"
-        text += f"{status} کانفیگ #{cfg['id']} - انقضا: {cfg['expire_date'][:10]}\n"
+        status = "🟢" if cfg["is_active"] else "🔴"
+        text += f"  {status} Config #{cfg['id']} — Expires: {cfg['expire_date'][:10]}\n"
     return text
 
 
 async def admin_stats(user_count: int, config_count: int, revenue: float, pending: int, symbol: str = "تومان") -> str:
-    e_stats = await pe("stats")
-    e_users = await pe("users")
-    e_configs = await pe("dashboard")
-    e_money = await pe("money")
-    e_clock = await pe("clock")
     return (
-        f"{e_stats} <b>آمار ادمین</b>\n\n"
-        f"{e_users} کل کاربران: {user_count}\n"
-        f"{e_configs} کانفیگ‌های فعال: {config_count}\n"
-        f"{e_money} درآمد کل: {revenue:,.0f} {symbol}\n"
-        f"{e_clock} رسیدهای در انتظار: {pending}"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  📊 <b>Admin Stats</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  👥 Users: <b>{user_count}</b>\n"
+        f"  🔑 Active Configs: <b>{config_count}</b>\n"
+        f"  💰 Revenue: <b>{revenue:,.0f} {symbol}</b>\n"
+        f"  📋 Pending Receipts: <b>{pending}</b>"
     )
 
 
 async def receipt_info(receipt: dict, symbol: str = "تومان") -> str:
-    e_list = await pe("list")
-    e_owner = await pe("owner")
-    e_money = await pe("money")
-    e_cal = await pe("calendar")
-    e_check = await pe("check")
     return (
-        f"{e_list} <b>رسید #{receipt['id']}</b>\n\n"
-        f"{e_owner} کاربر: @{receipt.get('username', 'N/A')} (ID: {receipt['user_id']})\n"
-        f"{e_money} مبلغ: {receipt['amount']:,.0f} {symbol}\n"
-        f"{e_cal} ارسال: {receipt['created_at']}\n"
-        f"{e_check} وضعیت: {receipt['status']}"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  📋 <b>Receipt #{receipt['id']}</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  👤 User: @{receipt.get('username', 'N/A')} ({receipt['user_id']})\n"
+        f"  💰 Amount: <b>{receipt['amount']:,.0f} {symbol}</b>\n"
+        f"  📅 Date: {receipt['created_at']}\n"
+        f"  📌 Status: <b>{receipt['status']}</b>"
     )
 
 
 async def user_info(user: dict, symbol: str = "تومان") -> str:
-    e_owner = await pe("owner")
-    e_money = await pe("money")
-    e_cal = await pe("calendar")
-    banned_text = "بله" if user["is_banned"] else "خیر"
+    banned_text = "Yes" if user["is_banned"] else "No"
     return (
-        f"{e_owner} <b>اطلاعات کاربر</b>\n\n"
-        f"آیدی: <code>{user['id']}</code>\n"
-        f"نام کاربری: @{user.get('username', 'N/A')}\n"
-        f"نام: {user.get('first_name', 'N/A')}\n"
-        f"{e_money} موجودی: {user['balance']:,.0f} {symbol}\n"
-        f"{e_cal} تاریخ ثبت: {user['created_at']}\n"
-        f"مسدود: {banned_text}"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  👤 <b>User Info</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  ID: <code>{user['id']}</code>\n"
+        f"  Username: @{user.get('username', 'N/A')}\n"
+        f"  Name: {user.get('first_name', 'N/A')}\n"
+        f"  💰 Balance: <b>{user['balance']:,.0f} {symbol}</b>\n"
+        f"  📅 Joined: {user['created_at']}\n"
+        f"  🔒 Banned: {banned_text}"
     )
 
 
 async def enter_amount() -> str:
-    e = await pe("money")
-    return f"{e} مبلغ پرداخت را وارد کنید (مثال: 50000):"
+    return (
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  💰 <b>Top Up Wallet</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  Enter amount (e.g., 50000):"
+    )
 
 
 async def setting_updated(key: str, value: str) -> str:
-    e = await pe("gear")
-    return f"{e} <b>تنظیم به‌روزرسانی شد!</b>\n\n{key}: {value}"
+    return (
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  ⚙️ <b>Setting Updated!</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  {key}: <b>{value}</b>"
+    )
 
 
 async def confirm_approve(amount: float) -> str:
-    return f"تایید رسید به مبلغ {amount:,.0f}؟"
+    return f"Approve receipt for {amount:,.0f}?"
 
 
 async def confirm_reject() -> str:
-    return "رد این رسید؟"
+    return "Reject this receipt?"
 
 
 async def no_pending_receipts() -> str:
-    e = await pe("check")
-    return f"{e} رسید در انتظاری وجود ندارد."
+    return (
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  ✅ <b>No Pending Receipts</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━"
+    )

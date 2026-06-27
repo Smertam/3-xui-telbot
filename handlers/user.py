@@ -100,7 +100,7 @@ async def cb_free_test(callback: CallbackQuery):
     except Exception:
         pass
     await callback.message.answer_photo(
-        photo=qr_img, caption=text, parse_mode="Markdown", reply_markup=await back_to_menu(),
+        photo=qr_img, caption=text, parse_mode="HTML", reply_markup=await back_to_menu(),
     )
 
 
@@ -140,7 +140,7 @@ async def cb_make_config(callback: CallbackQuery):
     except Exception:
         pass
     await callback.message.answer_photo(
-        photo=qr_img, caption=text, parse_mode="Markdown", reply_markup=await back_to_menu(),
+        photo=qr_img, caption=text, parse_mode="HTML", reply_markup=await back_to_menu(),
     )
 
 
@@ -224,7 +224,7 @@ async def cb_pay_wallet(callback: CallbackQuery):
     except Exception:
         pass
     await callback.message.answer_photo(
-        photo=qr_img, caption=text, parse_mode="Markdown", reply_markup=await back_to_menu(),
+        photo=qr_img, caption=text, parse_mode="HTML", reply_markup=await back_to_menu(),
     )
 
 
@@ -337,15 +337,15 @@ async def cb_my_configs(callback: CallbackQuery):
         buttons = []
         for cfg in active_configs[:5]:
             buttons.append([InlineKeyboardButton(
-                text=f"\U0001f511 Config #{cfg['id']} - Exp: {cfg['expire_date'][:10]}",
+                text=f"🟢 Config #{cfg['id']} — Exp: {cfg['expire_date'][:10]}",
                 callback_data=f"config_detail_{cfg['id']}",
             )])
         btn_back = await get_setting("btn_back")
         buttons.append([InlineKeyboardButton(text=btn_back, callback_data="main_menu")])
         kb = InlineKeyboardMarkup(inline_keyboard=buttons)
-        await callback.message.edit_text(text, parse_mode="Markdown", reply_markup=kb)
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=kb)
     else:
-        await callback.message.edit_text(text, parse_mode="Markdown", reply_markup=await back_to_menu())
+        await callback.message.edit_text(text, parse_mode="HTML", reply_markup=await back_to_menu())
 
 
 @router.callback_query(F.data.startswith("config_detail_"))
@@ -370,19 +370,41 @@ async def cb_config_detail(callback: CallbackQuery):
         client_configs = []
 
     if client_configs:
-        text = f"**Config #{cfg['id']}**\n\n"
-        text += f"Expires: {cfg['expire_date'][:10]}\n"
-        text += f"Email: `{cfg['email']}`\n\n"
-        text += f"**Config Links:**\n\n"
+        text = (
+            f"━━━━━━━━━━━━━━━━━━━━\n"
+            f"  🔑 <b>Config #{cfg['id']}</b>\n"
+            f"━━━━━━━━━━━━━━━━━━━━\n\n"
+            f"  ⏰ Expires: <b>{cfg['expire_date'][:10]}</b>\n"
+            f"  📧 Email: <code>{cfg['email']}</code>\n\n"
+        )
         for cc in client_configs:
-            text += f"**{cc['tag']}** ({cc['protocol']}):\n`{cc['config_link']}`\n\n"
-        text += f"**Sub Link:**\n`{sub_link}`"
+            text += f"━━━━━━━━━━━━━━━━━━━━\n"
+            text += f"  📡 <b>{cc['tag']}</b> ({cc['protocol']})\n\n"
+            text += f"  <code>{cc['config_link']}</code>\n\n"
+        text += f"━━━━━━━━━━━━━━━━━━━━\n"
+        text += f"  🔗 <b>Sub Link:</b>\n"
+        text += f"  <code>{sub_link}</code>\n"
+        text += f"━━━━━━━━━━━━━━━━━━━━"
+
+        try:
+            await callback.message.delete()
+        except Exception:
+            pass
+        await callback.message.answer(
+            text, parse_mode="HTML",
+            reply_markup=await config_detail(config_id),
+        )
     else:
         text = (
-            f"**Config #{cfg['id']}**\n\n"
-            f"Sub Link:\n`{sub_link}`\n\n"
-            f"Expires: {cfg['expire_date'][:10]}\n"
-            f"Email: `{cfg['email']}`\n\n"
+            f"━━━━━━━━━━━━━━━━━━━━\n"
+            f"  🔑 <b>Config #{cfg['id']}</b>\n"
+            f"━━━━━━━━━━━━━━━━━━━━\n\n"
+            f"  ⏰ Expires: <b>{cfg['expire_date'][:10]}</b>\n"
+            f"  📧 Email: <code>{cfg['email']}</code>\n\n"
+            f"━━━━━━━━━━━━━━━━━━━━\n"
+            f"  🔗 <b>Sub Link:</b>\n"
+            f"  <code>{sub_link}</code>\n"
+            f"━━━━━━━━━━━━━━━━━━━━\n\n"
             f"Scan the QR code or copy the link above."
         )
         qr_img = generate_qr(sub_link)
@@ -391,19 +413,9 @@ async def cb_config_detail(callback: CallbackQuery):
         except Exception:
             pass
         await callback.message.answer_photo(
-            photo=qr_img, caption=text, parse_mode="Markdown",
+            photo=qr_img, caption=text, parse_mode="HTML",
             reply_markup=await config_detail(config_id),
         )
-        return
-
-    try:
-        await callback.message.delete()
-    except Exception:
-        pass
-    await callback.message.answer(
-        text, parse_mode="Markdown",
-        reply_markup=await config_detail(config_id),
-    )
 
 
 @router.callback_query(F.data.startswith("copy_link_"))
