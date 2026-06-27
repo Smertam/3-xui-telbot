@@ -73,21 +73,23 @@ def settings():
     return render_template("settings.html", settings=all_settings)
 
 
-@app.route("/api/inbounds")
+@app.route("/api/test-connection")
 @login_required
-def api_inbounds():
+def api_test_connection():
     from api import panel_api
     panel_api.reload_config()
     if not panel_api.panel_url or not panel_api.panel_user:
-        return jsonify([])
+        return jsonify({"success": False, "message": "Panel URL or credentials not set"})
     try:
         loop = asyncio.new_event_loop()
-        inbounds = loop.run_until_complete(panel_api.get_inbounds())
+        result = loop.run_until_complete(panel_api.login())
         loop.close()
-        result = [{"id": i["id"], "protocol": i.get("protocol", ""), "tag": i.get("tag", ""), "enable": i.get("enable", False)} for i in inbounds]
-        return jsonify(result)
+        if result:
+            return jsonify({"success": True, "message": "Connection successful!"})
+        else:
+            return jsonify({"success": False, "message": "Login failed - check credentials"})
     except Exception as e:
-        return jsonify([])
+        return jsonify({"success": False, "message": f"Error: {str(e)}"})
 
 
 @app.route("/plans")

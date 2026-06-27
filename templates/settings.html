@@ -109,16 +109,18 @@
                     <div class="form-text">Leave empty for auto-detect. Use {sub_id} as placeholder.</div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Inbound</label>
-                    <div class="input-group">
-                        <select name="inbound_id" id="inboundSelect" class="form-select">
-                            <option value="">Auto-detect (first enabled VLESS)</option>
-                        </select>
-                        <button type="button" class="btn btn-outline-secondary" onclick="loadInbounds()">
-                            <i class="bi bi-arrow-clockwise"></i> Refresh
+                    <label class="form-label">Inbound ID</label>
+                    <input type="number" name="inbound_id" class="form-control" placeholder="e.g. 1" value="{{ settings.get('inbound_id', '') }}">
+                    <div class="form-text">Enter the inbound ID from your 3x-ui panel.</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Test Connection</label>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-primary" onclick="testConnection()">
+                            <i class="bi bi-lightning"></i> Test Connection
                         </button>
+                        <span id="testResult" class="align-self-center"></span>
                     </div>
-                    <div class="form-text">Choose which inbound to use for creating configs.</div>
                 </div>
             </div>
         </div>
@@ -204,25 +206,21 @@
 </div>
 </form>
 <script>
-function loadInbounds() {
-    fetch('/api/inbounds')
+function testConnection() {
+    const result = document.getElementById('testResult');
+    result.innerHTML = '<span class="text-warning">Testing...</span>';
+    fetch('/api/test-connection')
         .then(r => r.json())
-        .then(inbounds => {
-            const select = document.getElementById('inboundSelect');
-            const currentVal = '{{ settings.get("inbound_id", "") }}';
-            select.innerHTML = '<option value="">Auto-detect (first enabled VLESS)</option>';
-            inbounds.forEach(i => {
-                const opt = document.createElement('option');
-                opt.value = i.id;
-                opt.textContent = '#' + i.id + ' - ' + i.tag + ' (' + i.protocol + ')' + (i.enable ? '' : ' [disabled]');
-                if (String(i.id) === currentVal) opt.selected = true;
-                select.appendChild(opt);
-            });
+        .then(data => {
+            if (data.success) {
+                result.innerHTML = '<span class="text-success"><i class="bi bi-check-circle"></i> ' + data.message + '</span>';
+            } else {
+                result.innerHTML = '<span class="text-danger"><i class="bi bi-x-circle"></i> ' + data.message + '</span>';
+            }
+        })
+        .catch(() => {
+            result.innerHTML = '<span class="text-danger"><i class="bi bi-x-circle"></i> Connection failed</span>';
         });
 }
-document.addEventListener('DOMContentLoaded', function() {
-    const panelUrl = document.querySelector('input[name="panel_url"]').value;
-    if (panelUrl) loadInbounds();
-});
 </script>
 {% endblock %}
