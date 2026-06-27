@@ -266,6 +266,21 @@ class PanelAPI:
         print("Failed to add test client")
         return None
 
+    async def get_client_configs(self, email: str) -> list:
+        inbounds = await self.get_inbounds()
+        configs = []
+        for inbound in inbounds:
+            clients = inbound.get("settings", {}).get("clients", [])
+            for client in clients:
+                if client.get("email") == email:
+                    configs.append({
+                        "inbound_id": inbound["id"],
+                        "tag": inbound.get("tag", ""),
+                        "protocol": inbound.get("protocol", ""),
+                        "email": client.get("email", ""),
+                    })
+        return configs
+
     async def close(self):
         if self.session and not self.session.closed:
             await self.session.close()

@@ -362,12 +362,31 @@ async def cb_config_detail(callback: CallbackQuery):
         return
 
     cfg = dict(cfg)
-    await callback.message.edit_text(
+    sub_link = cfg["sub_link"]
+    text = (
         f"**Config #{cfg['id']}**\n\n"
-        f"Link: `{cfg['sub_link']}`\n"
+        f"Sub Link:\n`{sub_link}`\n\n"
         f"Expires: {cfg['expire_date'][:10]}\n"
-        f"Email: {cfg['email']}",
-        parse_mode="Markdown",
+        f"Email: `{cfg['email']}`\n"
+    )
+
+    try:
+        client_configs = await panel_api.get_client_configs(cfg["email"])
+        if client_configs:
+            text += f"\n**Protocols inside:**\n"
+            for cc in client_configs:
+                text += f"  {cc['protocol']} - {cc['tag']} (ID: {cc['inbound_id']})\n"
+    except Exception:
+        pass
+
+    text += f"\nScan the QR code or copy the link above."
+    qr_img = generate_qr(sub_link)
+    try:
+        await callback.message.delete()
+    except Exception:
+        pass
+    await callback.message.answer_photo(
+        photo=qr_img, caption=text, parse_mode="Markdown",
         reply_markup=await config_detail(config_id),
     )
 
