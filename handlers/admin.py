@@ -1183,18 +1183,16 @@ async def cb_panel_info(callback: CallbackQuery):
     if not await is_admin(callback.from_user.id):
         await callback.answer("دسترسی غیرمجاز!", show_alert=True)
         return
-    panel_url = await get_setting("panel_url") or "Not set"
-    panel_user = await get_setting("panel_user") or "Not set"
-    panel_pass = await get_setting("panel_pass") or "Not set"
-    inbound_ids = await get_setting("inbound_id") or "Not set"
-    sub_link = await get_setting("sub_link_template") or "Not set"
+    import os
+    web_port = os.getenv("WEB_PORT", "5000")
+    admin_user = os.getenv("ADMIN_WEB_USER", "admin")
+    admin_pass = os.getenv("ADMIN_WEB_PASS", "changeme")
     text = (
-        f"**3x-UI Panel Info**\n\n"
-        f"Panel URL: `{panel_url}`\n"
-        f"Username: `{panel_user}`\n"
-        f"Password: `{panel_pass}`\n"
-        f"Inbound IDs: `{inbound_ids}`\n"
-        f"Sub Link Template: `{sub_link}`"
+        f"**Dashboard Info**\n\n"
+        f"URL: `http://YOUR_IP:{web_port}`\n"
+        f"Username: `{admin_user}`\n"
+        f"Password: `{admin_pass}`\n\n"
+        f"Replace YOUR_IP with your server IP."
     )
     await callback.message.edit_text(text, parse_mode="Markdown", reply_markup=await back_to_admin())
 
