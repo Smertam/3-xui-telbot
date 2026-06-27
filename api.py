@@ -13,10 +13,14 @@ class PanelAPI:
         self.panel_user = ""
         self.panel_pass = ""
         self.sub_link_template = ""
+        self.inbound_ids = []
         self.base_path = ""
         self.session: aiohttp.ClientSession | None = None
         self.csrf_token: str = ""
-        self.reload_config()
+        try:
+            self.reload_config()
+        except Exception:
+            pass
 
     def reload_config(self):
         self.panel_url = (web_db.get_setting("panel_url") or "").rstrip("/")

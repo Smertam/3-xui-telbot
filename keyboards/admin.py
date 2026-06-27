@@ -15,6 +15,7 @@ async def admin_menu() -> InlineKeyboardMarkup:
             [InlineKeyboardButton(text=plans, callback_data="admin_plans")],
             [InlineKeyboardButton(text=receipts, callback_data="pending_receipts")],
             [InlineKeyboardButton(text=users, callback_data="admin_users")],
+            [InlineKeyboardButton(text="Panel Info", callback_data="panel_info")],
             [InlineKeyboardButton(text="Broadcast", callback_data="admin_broadcast")],
             [InlineKeyboardButton(text=settings, callback_data="admin_settings")],
             [InlineKeyboardButton(text=admins, callback_data="manage_admins")],

@@ -1178,6 +1178,27 @@ async def cb_broadcast(callback: CallbackQuery, state: FSMContext):
     )
 
 
+@router.callback_query(F.data == "panel_info")
+async def cb_panel_info(callback: CallbackQuery):
+    if not await is_admin(callback.from_user.id):
+        await callback.answer("دسترسی غیرمجاز!", show_alert=True)
+        return
+    panel_url = await get_setting("panel_url") or "Not set"
+    panel_user = await get_setting("panel_user") or "Not set"
+    panel_pass = await get_setting("panel_pass") or "Not set"
+    inbound_ids = await get_setting("inbound_id") or "Not set"
+    sub_link = await get_setting("sub_link_template") or "Not set"
+    text = (
+        f"**3x-UI Panel Info**\n\n"
+        f"Panel URL: `{panel_url}`\n"
+        f"Username: `{panel_user}`\n"
+        f"Password: `{panel_pass}`\n"
+        f"Inbound IDs: `{inbound_ids}`\n"
+        f"Sub Link Template: `{sub_link}`"
+    )
+    await callback.message.edit_text(text, parse_mode="Markdown", reply_markup=await back_to_admin())
+
+
 @router.message(AdminState.broadcast)
 async def process_broadcast(message: Message, state: FSMContext):
     if not await is_admin(message.from_user.id):
