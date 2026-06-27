@@ -172,7 +172,7 @@ class PanelAPI:
                 return inbound.get("id")
         return None
 
-    async def add_client(self, inbound_id: int, email: str, total_gb: float = 0, days: int = 0) -> dict | None:
+    async def add_client(self, inbound_ids: list[int], email: str, total_gb: float = 0, days: int = 0) -> dict | None:
         user_uuid = str(uuid.uuid4())
         sub_id = uuid.uuid4().hex[:16]
 
@@ -199,7 +199,7 @@ class PanelAPI:
                 "comment": "",
                 "enable": True,
             },
-            "inboundIds": [inbound_id],
+            "inboundIds": inbound_ids,
         }
 
         result = await self._post("/panel/api/clients/add", client_payload)
@@ -222,19 +222,22 @@ class PanelAPI:
             if vid is not None:
                 inbound_ids = [vid]
 
-        for iid in inbound_ids:
-            result = await self.add_client(iid, email, total_gb=total_gb, days=days)
-            if result:
-                sub_link = self.get_sub_link(email, result["sub_id"])
-                expire_date = (datetime.utcnow() + timedelta(days=days)).isoformat()
-                return {
-                    "uuid": result["uuid"],
-                    "email": result["email"],
-                    "sub_link": sub_link,
-                    "expire_date": expire_date,
-                }
+        if not inbound_ids:
+            print("No inbounds configured")
+            return None
 
-        print("Failed to add client on all inbounds")
+        result = await self.add_client(inbound_ids, email, total_gb=total_gb, days=days)
+        if result:
+            sub_link = self.get_sub_link(email, result["sub_id"])
+            expire_date = (datetime.utcnow() + timedelta(days=days)).isoformat()
+            return {
+                "uuid": result["uuid"],
+                "email": result["email"],
+                "sub_link": sub_link,
+                "expire_date": expire_date,
+            }
+
+        print("Failed to add client")
         return None
 
     async def create_test_config(self, email: str, total_mb: int = 102400) -> dict | None:
@@ -244,20 +247,23 @@ class PanelAPI:
             if vid is not None:
                 inbound_ids = [vid]
 
-        total_gb = total_mb / 1024
-        for iid in inbound_ids:
-            result = await self.add_client(iid, email, total_gb=total_gb, days=1)
-            if result:
-                sub_link = self.get_sub_link(email, result["sub_id"])
-                expire_date = (datetime.utcnow() + timedelta(days=1)).isoformat()
-                return {
-                    "uuid": result["uuid"],
-                    "email": result["email"],
-                    "sub_link": sub_link,
-                    "expire_date": expire_date,
-                }
+        if not inbound_ids:
+            print("No inbounds configured")
+            return None
 
-        print("Failed to add test client on all inbounds")
+        total_gb = total_mb / 1024
+        result = await self.add_client(inbound_ids, email, total_gb=total_gb, days=1)
+        if result:
+            sub_link = self.get_sub_link(email, result["sub_id"])
+            expire_date = (datetime.utcnow() + timedelta(days=1)).isoformat()
+            return {
+                "uuid": result["uuid"],
+                "email": result["email"],
+                "sub_link": sub_link,
+                "expire_date": expire_date,
+            }
+
+        print("Failed to add test client")
         return None
 
     async def close(self):
