@@ -44,6 +44,9 @@ async def run_bot():
     logger.info("Database initialized.")
 
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    import state
+    state.bot_instance = bot
+    state.loop_instance = asyncio.get_running_loop()
     dp = Dispatcher()
 
     dp.message.middleware(BanCheckMiddleware())

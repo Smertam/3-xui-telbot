@@ -213,6 +213,24 @@ def receipts():
 @login_required
 def receipt_approve(receipt_id):
     web_db.approve_receipt(receipt_id)
+    receipt = web_db.get_receipt(receipt_id)
+    if receipt and receipt.get("plan_id") and receipt["plan_id"] > 0:
+        import state
+        if state.bot_instance and state.loop_instance:
+            import asyncio
+            from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+            kb = InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="ساخت کانفیگ من", callback_data=f"make_config_{receipt['plan_id']}")],
+            ])
+            symbol = web_db.get_setting("currency_symbol") or "تومان"
+            asyncio.run_coroutine_threadsafe(
+                state.bot_instance.send_message(
+                    chat_id=receipt["user_id"],
+                    text=f"Transfer successful! ({receipt['amount']:,.0f} {symbol})\n\nClick below to get your config:",
+                    reply_markup=kb,
+                ),
+                state.loop_instance,
+            )
     flash(f"Receipt #{receipt_id} approved!", "success")
     return redirect(url_for("receipts"))
 
@@ -220,7 +238,20 @@ def receipt_approve(receipt_id):
 @app.route("/receipts/<int:receipt_id>/reject", methods=["POST"])
 @login_required
 def receipt_reject(receipt_id):
+    receipt = web_db.get_receipt(receipt_id)
     web_db.reject_receipt(receipt_id)
+    if receipt:
+        import state
+        if state.bot_instance and state.loop_instance:
+            import asyncio
+            symbol = web_db.get_setting("currency_symbol") or "تومان"
+            asyncio.run_coroutine_threadsafe(
+                state.bot_instance.send_message(
+                    chat_id=receipt["user_id"],
+                    text=f"Your receipt (#{receipt_id}) for {receipt['amount']:,.0f} {symbol} was rejected. Please contact admin.",
+                ),
+                state.loop_instance,
+            )
     flash(f"Receipt #{receipt_id} rejected", "warning")
     return redirect(url_for("receipts"))
 
