@@ -109,9 +109,9 @@
                     <div class="form-text">Leave empty for auto-detect. Use {sub_id} as placeholder.</div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Inbound ID</label>
-                    <input type="number" name="inbound_id" class="form-control" placeholder="e.g. 1" value="{{ settings.get('inbound_id', '') }}">
-                    <div class="form-text">Enter the inbound ID from your 3x-ui panel.</div>
+                    <label class="form-label">Inbound IDs</label>
+                    <input type="text" name="inbound_id" class="form-control" placeholder="e.g. 1,2,3" value="{{ settings.get('inbound_id', '') }}">
+                    <div class="form-text">Comma-separated. Bot tries each until one works.</div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Test Connection</label>

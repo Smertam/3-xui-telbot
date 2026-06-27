@@ -1,4 +1,5 @@
 import os
+import sys
 import secrets
 import asyncio
 from functools import wraps
@@ -67,7 +68,12 @@ def settings():
             web_db.set_setting(key, request.form[key])
         from api import panel_api
         panel_api.reload_config()
-        flash("Settings saved successfully!", "success")
+        flash("Settings saved successfully! Bot restarting...", "success")
+        if sys.platform == "win32":
+            pid = os.getpid()
+            os.system(f"taskkill /PID {pid} /F >nul 2>&1 & start /B python run.py")
+        else:
+            os.execv(sys.executable, [sys.executable] + sys.argv)
         return redirect(url_for("settings"))
     all_settings = web_db.get_all_settings()
     return render_template("settings.html", settings=all_settings)

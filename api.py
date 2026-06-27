@@ -23,7 +23,8 @@ class PanelAPI:
         self.panel_user = web_db.get_setting("panel_user") or ""
         self.panel_pass = web_db.get_setting("panel_pass") or ""
         self.sub_link_template = web_db.get_setting("sub_link_template") or ""
-        self.inbound_id = web_db.get_setting("inbound_id") or ""
+        raw = web_db.get_setting("inbound_id") or ""
+        self.inbound_ids = [int(x.strip()) for x in raw.split(",") if x.strip().isdigit()]
         self.base_path = ""
         self._extract_base_path()
 
@@ -211,61 +212,49 @@ class PanelAPI:
         return f"https://{host}:2096/sub/{sub_id}"
 
     async def create_config(self, email: str, days: int = 30, total_gb: int = 0) -> dict | None:
-        inbound_id = None
-        if self.inbound_id:
-            try:
-                inbound_id = int(self.inbound_id)
-            except (ValueError, TypeError):
-                pass
-        if inbound_id is None:
-            inbound_id = await self.get_vless_inbound_id()
-        if inbound_id is None:
-            print("No VLESS inbound found")
-            return None
+        inbound_ids = self.inbound_ids if self.inbound_ids else []
+        if not inbound_ids:
+            vid = await self.get_vless_inbound_id()
+            if vid is not None:
+                inbound_ids = [vid]
 
-        result = await self.add_client(inbound_id, email, total_gb=total_gb, days=days)
-        if result is None:
-            print("Failed to add client to panel")
-            return None
+        for iid in inbound_ids:
+            result = await self.add_client(iid, email, total_gb=total_gb, days=days)
+            if result:
+                sub_link = self.get_sub_link(email, result["sub_id"])
+                expire_date = (datetime.utcnow() + timedelta(days=days)).isoformat()
+                return {
+                    "uuid": result["uuid"],
+                    "email": result["email"],
+                    "sub_link": sub_link,
+                    "expire_date": expire_date,
+                }
 
-        sub_link = self.get_sub_link(email, result["sub_id"])
-        expire_date = (datetime.utcnow() + timedelta(days=days)).isoformat()
-
-        return {
-            "uuid": result["uuid"],
-            "email": result["email"],
-            "sub_link": sub_link,
-            "expire_date": expire_date,
-        }
+        print("Failed to add client on all inbounds")
+        return None
 
     async def create_test_config(self, email: str, total_mb: int = 102400) -> dict | None:
-        inbound_id = None
-        if self.inbound_id:
-            try:
-                inbound_id = int(self.inbound_id)
-            except (ValueError, TypeError):
-                pass
-        if inbound_id is None:
-            inbound_id = await self.get_vless_inbound_id()
-        if inbound_id is None:
-            print("No VLESS inbound found")
-            return None
+        inbound_ids = self.inbound_ids if self.inbound_ids else []
+        if not inbound_ids:
+            vid = await self.get_vless_inbound_id()
+            if vid is not None:
+                inbound_ids = [vid]
 
         total_gb = total_mb / 1024
-        result = await self.add_client(inbound_id, email, total_gb=total_gb, days=1)
-        if result is None:
-            print("Failed to add test client to panel")
-            return None
+        for iid in inbound_ids:
+            result = await self.add_client(iid, email, total_gb=total_gb, days=1)
+            if result:
+                sub_link = self.get_sub_link(email, result["sub_id"])
+                expire_date = (datetime.utcnow() + timedelta(days=1)).isoformat()
+                return {
+                    "uuid": result["uuid"],
+                    "email": result["email"],
+                    "sub_link": sub_link,
+                    "expire_date": expire_date,
+                }
 
-        sub_link = self.get_sub_link(email, result["sub_id"])
-        expire_date = (datetime.utcnow() + timedelta(days=1)).isoformat()
-
-        return {
-            "uuid": result["uuid"],
-            "email": result["email"],
-            "sub_link": sub_link,
-            "expire_date": expire_date,
-        }
+        print("Failed to add test client on all inbounds")
+        return None
 
     async def close(self):
         if self.session and not self.session.closed:
