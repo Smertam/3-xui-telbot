@@ -108,6 +108,18 @@
                     <input type="text" name="sub_link_template" class="form-control" placeholder="https://domain:2096/sub/{sub_id}" value="{{ settings.get('sub_link_template', '') }}">
                     <div class="form-text">Leave empty for auto-detect. Use {sub_id} as placeholder.</div>
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">Inbound</label>
+                    <div class="input-group">
+                        <select name="inbound_id" id="inboundSelect" class="form-select">
+                            <option value="">Auto-detect (first enabled VLESS)</option>
+                        </select>
+                        <button type="button" class="btn btn-outline-secondary" onclick="loadInbounds()">
+                            <i class="bi bi-arrow-clockwise"></i> Refresh
+                        </button>
+                    </div>
+                    <div class="form-text">Choose which inbound to use for creating configs.</div>
+                </div>
             </div>
         </div>
     </div>
@@ -191,4 +203,26 @@
     </div>
 </div>
 </form>
+<script>
+function loadInbounds() {
+    fetch('/api/inbounds')
+        .then(r => r.json())
+        .then(inbounds => {
+            const select = document.getElementById('inboundSelect');
+            const currentVal = '{{ settings.get("inbound_id", "") }}';
+            select.innerHTML = '<option value="">Auto-detect (first enabled VLESS)</option>';
+            inbounds.forEach(i => {
+                const opt = document.createElement('option');
+                opt.value = i.id;
+                opt.textContent = '#' + i.id + ' - ' + i.tag + ' (' + i.protocol + ')' + (i.enable ? '' : ' [disabled]');
+                if (String(i.id) === currentVal) opt.selected = true;
+                select.appendChild(opt);
+            });
+        });
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const panelUrl = document.querySelector('input[name="panel_url"]').value;
+    if (panelUrl) loadInbounds();
+});
+</script>
 {% endblock %}

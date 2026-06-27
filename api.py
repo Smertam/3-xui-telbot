@@ -23,6 +23,7 @@ class PanelAPI:
         self.panel_user = web_db.get_setting("panel_user") or ""
         self.panel_pass = web_db.get_setting("panel_pass") or ""
         self.sub_link_template = web_db.get_setting("sub_link_template") or ""
+        self.inbound_id = web_db.get_setting("inbound_id") or ""
         self.base_path = ""
         self._extract_base_path()
 
@@ -210,7 +211,14 @@ class PanelAPI:
         return f"https://{host}:2096/sub/{sub_id}"
 
     async def create_config(self, email: str, days: int = 30, total_gb: int = 0) -> dict | None:
-        inbound_id = await self.get_vless_inbound_id()
+        inbound_id = None
+        if self.inbound_id:
+            try:
+                inbound_id = int(self.inbound_id)
+            except (ValueError, TypeError):
+                pass
+        if inbound_id is None:
+            inbound_id = await self.get_vless_inbound_id()
         if inbound_id is None:
             print("No VLESS inbound found")
             return None
@@ -231,7 +239,14 @@ class PanelAPI:
         }
 
     async def create_test_config(self, email: str, total_mb: int = 102400) -> dict | None:
-        inbound_id = await self.get_vless_inbound_id()
+        inbound_id = None
+        if self.inbound_id:
+            try:
+                inbound_id = int(self.inbound_id)
+            except (ValueError, TypeError):
+                pass
+        if inbound_id is None:
+            inbound_id = await self.get_vless_inbound_id()
         if inbound_id is None:
             print("No VLESS inbound found")
             return None

@@ -1,8 +1,9 @@
 import os
 import secrets
+import asyncio
 from functools import wraps
 from flask import (
-    Flask, render_template, request, redirect, url_for, session, flash,
+    Flask, render_template, request, redirect, url_for, session, flash, jsonify,
 )
 from dotenv import load_dotenv
 import web_db
@@ -70,6 +71,23 @@ def settings():
         return redirect(url_for("settings"))
     all_settings = web_db.get_all_settings()
     return render_template("settings.html", settings=all_settings)
+
+
+@app.route("/api/inbounds")
+@login_required
+def api_inbounds():
+    from api import panel_api
+    panel_api.reload_config()
+    if not panel_api.panel_url or not panel_api.panel_user:
+        return jsonify([])
+    try:
+        loop = asyncio.new_event_loop()
+        inbounds = loop.run_until_complete(panel_api.get_inbounds())
+        loop.close()
+        result = [{"id": i["id"], "protocol": i.get("protocol", ""), "tag": i.get("tag", ""), "enable": i.get("enable", False)} for i in inbounds]
+        return jsonify(result)
+    except Exception as e:
+        return jsonify([])
 
 
 @app.route("/plans")

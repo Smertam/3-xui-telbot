@@ -106,6 +106,7 @@ async def init_db():
         "panel_user": "",
         "panel_pass": "",
         "sub_link_template": "",
+        "inbound_id": "",
     }
     for key, value in defaults.items():
         existing = await db.execute("SELECT key FROM settings WHERE key = ?", (key,))
