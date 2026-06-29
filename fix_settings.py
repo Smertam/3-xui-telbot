@@ -1,16 +1,16 @@
 import sqlite3
-conn = sqlite3.connect("bot_database.db")
-
-# Restore the original values that our test run overwrote
-restores = {
-    "welcome_text": "\u0628\u0647 NigVpn \u062e\u0648\u0634 \u0622\u0645\u062f\u06cc\u062f! \u062e\u0631\u06cc\u062f \u0622\u0633\u0627\u0646 \u0648 \u0627\u0645\u0646 VPN",
-    "currency_symbol": "\u062a\u0648\u0645\u0627\u0646",
-    "currency": "IRR",
+conn = sqlite3.connect('/root/3x-ui/bot_database.db')
+settings = {
+    'panel_url': 'https://212.87.199.33:16504/YYqxXzfBAVcrlmwdQw',
+    'panel_user': 'elyas',
+    'panel_pass': 'elyas1386z',
+    'inbound_id': '1',
+    'sub_link_template': '',
 }
-for key, val in restores.items():
-    conn.execute("UPDATE settings SET value = ? WHERE key = ?", (val, key))
-    print(f"Restored {key}")
-
+for k, v in settings.items():
+    conn.execute('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)', (k, v))
 conn.commit()
+for k, v in settings.items():
+    row = conn.execute('SELECT value FROM settings WHERE key=?', (k,)).fetchone()
+    print(f'{k} = {row[0] if row else "NOT SET"}')
 conn.close()
-print("Done")

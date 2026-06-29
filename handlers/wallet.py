@@ -1,5 +1,5 @@
 from aiogram import Router, F
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, CopyTextButton
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from database import get_user, add_receipt, get_setting, get_admins
@@ -57,11 +57,64 @@ async def process_amount(message: Message, state: FSMContext):
     await state.update_data(amount=amount)
     await state.set_state(TopUpState.waiting_photo)
     symbol = await get_setting("currency_symbol") or "تومان"
-    await message.answer(
-        f"مبلغ: **{amount:,.0f} {symbol}**\n\nاکنون اسکرین‌شات رسید پرداخت خود را آپلود کنید.",
-        parse_mode="Markdown",
-        reply_markup=await back_to_menu(),
+    card_number = await get_setting("card_number") or "1234-5678-9012-3456"
+    card_owner = await get_setting("card_owner") or "Card Owner"
+    from utils.premium_emoji import pe, get_button_emoji_id
+    from utils.texts import _get_text
+
+    ec = await pe("card")
+
+    tpl = await _get_text("text_topup_card",
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"  {ec} <b>شارژ کیف پول</b>\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"  مبلغ: <b>{{amount}} {symbol}</b>\n\n"
+        f"  شماره کارت: <code>{{card_number}}</code>\n"
+        f"  صاحب کارت: <b>{{card_owner}}</b>\n\n"
+        f"  مبلغ دقیق را به کارت بالا واریز کنید،\n"
+        f"  سپس روی <b>پرداخت موفق</b> کلیک کنید\n"
+        f"  و رسید خود را آپلود کنید."
     )
+    text = (tpl
+        .replace("{amount}", f"{amount:,.0f}")
+        .replace("{card_number}", card_number)
+        .replace("{card_owner}", card_owner)
+    )
+
+    copy_card_btn = InlineKeyboardButton(
+        text="کپی شماره کارت",
+        copy_text=CopyTextButton(text=card_number),
+    )
+    eid = await get_button_emoji_id("copy_number")
+    if eid:
+        copy_card_btn.icon_custom_emoji_id = eid
+
+    copy_both_btn = InlineKeyboardButton(
+        text="کپی مبلغ",
+        copy_text=CopyTextButton(text=f"{amount:,.0f} {symbol}"),
+    )
+    eid = await get_button_emoji_id("copy_price")
+    if eid:
+        copy_both_btn.icon_custom_emoji_id = eid
+
+    from keyboards.user import _btn
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [copy_card_btn, copy_both_btn],
+        [await _btn("پرداخت موفق", "topup_confirm", "success", btn_id="topup_confirm")],
+        [await _btn("لغو", "main_menu", "cancel", "danger", "cancel")],
+    ])
+    await message.answer(text, parse_mode="HTML", reply_markup=kb)
+
+
+@router.callback_query(F.data == "topup_confirm")
+async def cb_topup_confirm(callback: CallbackQuery, state: FSMContext):
+    from utils.premium_emoji import pe
+    e = await pe("success")
+    from utils.texts import _get_text
+    text = await _get_text("text_topup_upload_photo",
+        f"{e} <b>رسید پرداخت خود را آپلود کنید.</b>"
+    )
+    await callback.message.edit_text(text, parse_mode="HTML", reply_markup=await back_to_menu())
 
 
 @router.message(TopUpState.waiting_photo, F.photo)
@@ -76,7 +129,7 @@ async def process_photo(message: Message, state: FSMContext):
 
     auto_max = float(await get_setting("auto_approve_max") or "0")
     if auto_max > 0 and amount <= auto_max:
-        from database import approve_receipt, get_user, get_pending_receipts
+        from database import approve_receipt, get_pending_receipts
         pending = await get_pending_receipts()
         receipt = None
         for r in pending:

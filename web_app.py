@@ -65,9 +65,37 @@ def settings():
             if key.startswith("_"):
                 continue
             web_db.set_setting(key, request.form[key])
+        import config
+        if "bot_token" in request.form and request.form["bot_token"].strip():
+            new_token = request.form["bot_token"].strip()
+            config.BOT_TOKEN = new_token
+            env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+            lines = []
+            found = False
+            with open(env_path, "r") as f:
+                for line in f:
+                    if line.strip().startswith("BOT_TOKEN="):
+                        lines.append(f"BOT_TOKEN={new_token}\n")
+                        found = True
+                    else:
+                        lines.append(line)
+            if not found:
+                lines.insert(0, f"BOT_TOKEN={new_token}\n")
+            with open(env_path, "w") as f:
+                f.writelines(lines)
         from api import panel_api
         panel_api.reload_config()
         flash("Settings saved successfully!", "success")
+        if "bot_token" in request.form and request.form["bot_token"].strip():
+            new_token = request.form["bot_token"].strip()
+            import config
+            if new_token != config.BOT_TOKEN:
+                restart_script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "restart.sh")
+                with open(restart_script, "w") as f:
+                    f.write("#!/bin/bash\nsleep 2\nkill -9 $(lsof -ti:5000) 2>/dev/null\nkill -9 $(pgrep -f run.py) 2>/dev/null\nsleep 2\ncd /root/3x-ui && nohup /root/3x-ui/venv/bin/python run.py > bot.log 2>&1 &\n")
+                os.chmod(restart_script, 0o755)
+                os.system("nohup bash " + restart_script + " > /dev/null 2>&1 &")
+                flash("Bot token changed! Bot will restart to apply.", "success")
         return redirect(url_for("settings"))
     all_settings = web_db.get_all_settings()
     return render_template("settings.html", settings=all_settings)
@@ -325,6 +353,74 @@ def broadcast():
         flash(f"Broadcast prepared for {count} users. Use the Telegram bot /admin > Broadcast to send.", "info")
         return redirect(url_for("broadcast"))
     return render_template("broadcast.html")
+
+
+@app.route("/bot-texts", methods=["GET", "POST"])
+@login_required
+def bot_texts():
+    if request.method == "POST":
+        for key in request.form:
+            if key.startswith("_"):
+                continue
+            web_db.set_setting(key, request.form[key])
+        flash("Bot texts saved successfully!", "success")
+        return redirect(url_for("bot_texts"))
+    from utils.texts import BOT_TEXTS
+    all_settings = web_db.get_all_settings()
+    texts = {}
+    for key, (label, hint, variables) in BOT_TEXTS.items():
+        texts[key] = {
+            "label": label,
+            "hint": hint,
+            "variables": variables,
+            "value": all_settings.get(key, ""),
+        }
+    return render_template("bot_texts.html", texts=texts)
+
+
+@app.route("/buttons", methods=["GET", "POST"])
+@login_required
+def buttons():
+    if request.method == "POST":
+        for key in request.form:
+            if key.startswith("_"):
+                continue
+            web_db.set_setting(key, request.form[key])
+        flash("Button settings saved!", "success")
+        return redirect(url_for("buttons"))
+    from keyboards.user import BUTTON_CONFIGS
+    all_settings = web_db.get_all_settings()
+    emoji_names = [
+        "wallet", "free_test", "buy_config", "my_configs", "back", "admin",
+        "stats", "users", "settings", "plans", "receipts", "admins", "check", "cross",
+        "card", "owner", "star", "copy", "cancel", "success", "approve", "reject",
+        "ban", "unban", "plus", "minus", "list", "gear", "money", "calendar", "history",
+        "menu", "package", "link", "clock", "start", "copy_number", "copy_price",
+    ]
+    registered = {}
+    try:
+        import json
+        raw = all_settings.get("premium_emojis", "")
+        if raw:
+            registered = json.loads(raw)
+    except Exception:
+        pass
+    styles = [
+        ("", "Default"),
+        ("primary", "Primary (Indigo)"),
+        ("success", "Success (Green)"),
+        ("danger", "Danger (Red)"),
+        ("secondary", "Secondary (Gray)"),
+    ]
+    buttons_data = {}
+    for btn_id, cfg in BUTTON_CONFIGS.items():
+        buttons_data[btn_id] = {
+            "label": cfg["label"],
+            "emoji": all_settings.get(f"btn_emoji_{btn_id}", ""),
+            "style": all_settings.get(f"btn_style_{btn_id}", cfg["default_style"]),
+            "current_emoji_name": cfg["default_emoji"],
+        }
+    return render_template("buttons.html", buttons=buttons_data, emoji_names=emoji_names, registered=registered, styles=styles)
 
 
 if __name__ == "__main__":

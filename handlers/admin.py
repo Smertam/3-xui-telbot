@@ -217,9 +217,10 @@ async def cb_approve(callback: CallbackQuery):
 
     try:
         if receipt["plan_id"] and receipt["plan_id"] > 0:
-            from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+            from aiogram.types import InlineKeyboardMarkup
+            from keyboards.user import _btn
             kb = InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text="ساخت کانفیگ من", callback_data=f"make_config_{receipt['plan_id']}")],
+                [await _btn("ساخت کانفیگ من", f"make_config_{receipt['plan_id']}", "package", btn_id="make_config")],
             ])
             await callback.bot.send_message(
                 chat_id=receipt["user_id"],
@@ -646,6 +647,7 @@ async def process_emoji_name(message: Message, state: FSMContext):
         "stats", "users", "settings", "plans", "receipts", "admins", "check", "cross",
         "card", "owner", "star", "copy", "cancel", "success", "approve", "reject",
         "ban", "unban", "plus", "minus", "list", "gear", "money", "calendar", "history", "menu",
+        "package", "link", "clock", "start", "copy_number", "copy_price",
     ]
     name = message.text.strip().lower()
     if name not in valid_names:

@@ -60,11 +60,17 @@ async def get_available_emojis() -> dict:
         "package": "\U0001f4e6",
         "link": "\U0001f517",
         "clock": "\u23f3",
+        "start": "\u25b6\ufe0f",
+        "copy_number": "\U0001f4cb",
+        "copy_price": "\U0001f4b0",
     }
     return defaults
 
 
 async def pe(name: str) -> str:
+    eid = await get_button_emoji_id(name)
+    if eid:
+        return f'<tg-emoji emoji-id="{eid}">🔹</tg-emoji>'
     emojis = await get_available_emojis()
     return emojis.get(name, "")
 

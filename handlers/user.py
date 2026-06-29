@@ -1,25 +1,68 @@
-from aiogram import Router, F
-from aiogram.types import Message, CallbackQuery
+from aiogram import Router, F, BaseMiddleware
+from aiogram.types import Message, CallbackQuery, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 import time
 from database import (
     add_user, get_user, get_user_configs, has_free_test, add_config,
-    get_setting, is_admin, get_plan, add_receipt, get_admins,
+    get_setting, is_admin, get_plan, add_receipt, get_admins, update_balance,
 )
 from api import panel_api
 from keyboards.user import (
     main_menu, back_to_menu, plans_menu, payment_method_menu, config_detail,
+    force_join_keyboard,
 )
 from utils.texts import (
-    WELCOME_TEXT, config_list_text, config_created, free_test_config, no_balance,
+    WELCOME_TEXT_DEFAULT, config_list_text, config_created, free_test_config, no_balance,
 )
+from utils.premium_emoji import pe, get_button_emoji_id
 from utils.qr_generator import generate_qr
 
 router = Router()
 
 TEST_CONFIG_DAYS = 1
+
+
+async def _is_channel_member(bot, user_id: int) -> bool:
+    enabled = await get_setting("force_join_enabled")
+    if enabled != "1":
+        return True
+    channel_id = await get_setting("required_channel_id")
+    if not channel_id:
+        return True
+    try:
+        member = await bot.get_chat_member(chat_id=channel_id, user_id=user_id)
+        return member.status in ("member", "administrator", "creator")
+    except Exception:
+        return True
+
+
+async def _send_force_join(bot, chat_id: int):
+    channel_id = await get_setting("required_channel_id") or ""
+    text = await get_setting("force_join_text") or "⚠️ برای استفاده از ربات، ابتدا باید در کانال ما عضو شوید!"
+    await bot.send_message(chat_id=chat_id, text=text, reply_markup=await force_join_keyboard(channel_id))
+
+
+class ForceJoinMiddleware(BaseMiddleware):
+    async def __call__(self, handler, event: CallbackQuery, data: dict):
+        if event.data == "check_membership":
+            return await handler(event, data)
+        if not await _is_channel_member(event.bot, event.from_user.id):
+            fail_text = await get_setting("force_join_fail_text") or "⚠️ ابتدا در کانال عضو شوید!"
+            await event.answer(fail_text, show_alert=True)
+            return
+        return await handler(event, data)
+
+
+router.callback_query.middleware(ForceJoinMiddleware())
+
+
+async def _start_kb():
+    return ReplyKeyboardMarkup(
+        keyboard=[[KeyboardButton(text="▶️ شروع")]],
+        resize_keyboard=True,
+    )
 
 
 class C2CState(StatesGroup):
@@ -34,8 +77,41 @@ async def cmd_start(message: Message):
         message.from_user.username,
         message.from_user.first_name,
     )
-    welcome = await get_setting("welcome_text") or WELCOME_TEXT
-    await message.answer(welcome, reply_markup=await main_menu(message.from_user.id))
+    if not await _is_channel_member(message.bot, message.from_user.id):
+        await _send_force_join(message.bot, message.from_user.id)
+        return
+    welcome = await get_setting("welcome_text") or WELCOME_TEXT_DEFAULT
+    await message.answer(welcome, parse_mode="HTML", reply_markup=await _start_kb())
+    await message.answer("منوی اصلی", reply_markup=await main_menu(message.from_user.id))
+
+
+@router.message(F.text == "▶️ شروع")
+async def btn_start(message: Message):
+    await add_user(
+        message.from_user.id,
+        message.from_user.username,
+        message.from_user.first_name,
+    )
+    if not await _is_channel_member(message.bot, message.from_user.id):
+        await _send_force_join(message.bot, message.from_user.id)
+        return
+    welcome = await get_setting("welcome_text") or WELCOME_TEXT_DEFAULT
+    await message.answer(welcome, parse_mode="HTML", reply_markup=await main_menu(message.from_user.id))
+
+
+@router.callback_query(F.data == "check_membership")
+async def cb_check_membership(callback: CallbackQuery):
+    if await _is_channel_member(callback.bot, callback.from_user.id):
+        try:
+            await callback.message.delete()
+        except Exception:
+            pass
+        welcome = await get_setting("welcome_text") or WELCOME_TEXT_DEFAULT
+        await callback.message.answer(welcome, parse_mode="HTML", reply_markup=await _start_kb())
+        await callback.message.answer("منوی اصلی", reply_markup=await main_menu(callback.from_user.id))
+    else:
+        fail_text = await get_setting("force_join_fail_text") or "❌ شما هنوز در کانال عضو نیستید! لطفاً ابتدا عضو شوید و سپس دوباره بررسی کنید."
+        await callback.answer(fail_text, show_alert=True)
 
 
 @router.message(Command("menu"))
@@ -115,7 +191,7 @@ async def cb_make_config(callback: CallbackQuery):
     user_id = callback.from_user.id
     user = await get_user(user_id)
     username = user.get("username") or str(user_id)
-    email = f"c2c_{user_id}_{username}"
+    email = f"c2c_{user_id}_{username}_{int(time.time())}"
 
     await callback.answer("در حال ساخت کانفیگ...", show_alert=False)
     result = await panel_api.create_config(email, days=plan["days"], total_gb=plan["gb"])
@@ -127,6 +203,8 @@ async def cb_make_config(callback: CallbackQuery):
         user_id=user_id, plan_id=plan_id, sub_link=result["sub_link"],
         uuid=result["uuid"], email=email, expire_date=result["expire_date"],
     )
+
+    await update_balance(user_id, -plan["price"])
 
     symbol = await get_setting("currency_symbol") or "تومان"
     text = await config_created(
@@ -211,7 +289,8 @@ async def cb_pay_wallet(callback: CallbackQuery):
     await update_balance(user_id, -plan["price"])
 
     username = user.get("username") or str(user_id)
-    email = f"user_{user_id}_{username}"
+    ts = int(time.time())
+    email = f"user_{user_id}_{username}_{ts}"
 
     await callback.answer("در حال ساخت کانفیگ...", show_alert=False)
     result = await panel_api.create_config(email, days=plan["days"], total_gb=plan["gb"])
@@ -255,27 +334,39 @@ async def cb_pay_c2c(callback: CallbackQuery, state: FSMContext):
     symbol = await get_setting("currency_symbol") or "تومان"
     card_number = await get_setting("card_number") or "1234-5678-9012-3456"
     card_owner = await get_setting("card_owner") or "Card Owner"
-    c2c_title = await get_setting("c2c_title") or "Card to Card Payment"
 
     await state.update_data(c2c_plan_id=plan_id)
     await state.set_state(C2CState.waiting_confirm)
 
-    from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+    from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CopyTextButton
+    from utils.premium_emoji import pe, get_button_emoji_id
+    from keyboards.user import _btn
+
+    copy_card_btn = InlineKeyboardButton(
+        text="کپی شماره کارت",
+        copy_text=CopyTextButton(text=card_number),
+    )
+    eid = await get_button_emoji_id("copy_number")
+    if eid:
+        copy_card_btn.icon_custom_emoji_id = eid
+
+    copy_both_btn = InlineKeyboardButton(
+        text="کپی مبلغ",
+        copy_text=CopyTextButton(text=f"{plan['price']:,} {symbol}"),
+    )
+    eid = await get_button_emoji_id("copy_price")
+    if eid:
+        copy_both_btn.icon_custom_emoji_id = eid
+
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=f"پرداخت موفق", callback_data=f"c2c_confirm_{plan_id}")],
-        [InlineKeyboardButton(text="لغو", callback_data="main_menu")],
+        [copy_card_btn, copy_both_btn],
+        [await _btn("پرداخت موفق", f"c2c_confirm_{plan_id}", "success", btn_id="c2c_confirm")],
+        [await _btn("لغو", "main_menu", "cancel", "danger", "cancel")],
     ])
 
-    await callback.message.edit_text(
-        f"**{c2c_title}**\n\n"
-        f"Plan: **{plan['name']}** ({plan['gb']}GB / {plan['days']} days)\n"
-        f"Amount: **{plan['price']:,} {symbol}**\n\n"
-        f"Card Number: `{card_number}`\n"
-        f"Card Owner: **{card_owner}**\n\n"
-        f"Send the exact amount to the card above, then click **Payment Success** to upload your receipt.",
-        parse_mode="Markdown",
-        reply_markup=kb,
-    )
+    from utils.texts import c2c_payment_text
+    text = await c2c_payment_text(plan, symbol, card_number, card_owner)
+    await callback.message.edit_text(text, parse_mode="HTML", reply_markup=kb)
 
 
 @router.callback_query(F.data.startswith("c2c_confirm_"))
@@ -284,10 +375,9 @@ async def cb_c2c_confirm(callback: CallbackQuery, state: FSMContext):
     await state.update_data(c2c_plan_id=plan_id)
     await state.set_state(C2CState.waiting_photo)
 
-    await callback.message.edit_text(
-        "رسید پرداخت خود را آپلود کنید.",
-        reply_markup=await back_to_menu(),
-    )
+    from utils.texts import c2c_upload_photo_text
+    text = await c2c_upload_photo_text()
+    await callback.message.edit_text(text, parse_mode="HTML", reply_markup=await back_to_menu())
 
 
 @router.message(C2CState.waiting_photo, F.photo)
@@ -297,7 +387,7 @@ async def cb_c2c_receipt_photo(message: Message, state: FSMContext):
     plan = await get_plan(plan_id)
 
     if not plan:
-        await message.answer("Plan not found. Please try again.", reply_markup=await back_to_menu())
+        await message.answer("پلن یافت نشد. لطفاً دوباره تلاش کنید.", reply_markup=await back_to_menu())
         await state.clear()
         return
 
@@ -306,14 +396,9 @@ async def cb_c2c_receipt_photo(message: Message, state: FSMContext):
     await state.clear()
 
     symbol = await get_setting("currency_symbol") or "تومان"
-    await message.answer(
-        f"\u2705 **Receipt submitted!**\n\n"
-        f"Plan: **{plan['name']}** ({plan['gb']}GB / {plan['days']} days)\n"
-        f"Amount: **{plan['price']:,} {symbol}**\n\n"
-        f"Admins will review your receipt. You will receive your config automatically once approved.",
-        parse_mode="Markdown",
-        reply_markup=await back_to_menu(),
-    )
+    from utils.texts import c2c_receipt_submitted_text
+    text = await c2c_receipt_submitted_text(plan, symbol)
+    await message.answer(text, parse_mode="HTML", reply_markup=await back_to_menu())
 
     admins = await get_admins()
     for admin in admins:
@@ -350,14 +435,15 @@ async def cb_my_configs(callback: CallbackQuery):
 
     if active_configs:
         from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+        from keyboards.user import _btn
         buttons = []
         for cfg in active_configs[:5]:
             buttons.append([InlineKeyboardButton(
-                text=f"🟢 Config #{cfg['id']} — Exp: {cfg['expire_date'][:10]}",
+                text=f"\U0001f7e2 Config #{cfg['id']} \u2014 Exp: {cfg['expire_date'][:10]}",
                 callback_data=f"config_detail_{cfg['id']}",
             )])
         btn_back = await get_setting("btn_back")
-        buttons.append([InlineKeyboardButton(text=btn_back, callback_data="main_menu")])
+        buttons.append([await _btn(btn_back, "main_menu", "back", btn_id="back")])
         kb = InlineKeyboardMarkup(inline_keyboard=buttons)
         await callback.message.edit_text(text, parse_mode="HTML", reply_markup=kb)
     else:

@@ -1,5 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from database import get_setting
+from keyboards.user import _btn
 
 
 async def admin_menu() -> InlineKeyboardMarkup:
@@ -9,16 +10,17 @@ async def admin_menu() -> InlineKeyboardMarkup:
     settings = await get_setting("btn_admin_settings")
     admins = await get_setting("btn_admin_admins")
     plans = await get_setting("btn_admin_plans") or "Plans"
+    broadcast = await get_setting("btn_admin_broadcast") or "Broadcast"
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text=stats, callback_data="admin_stats")],
-            [InlineKeyboardButton(text=plans, callback_data="admin_plans")],
-            [InlineKeyboardButton(text=receipts, callback_data="pending_receipts")],
-            [InlineKeyboardButton(text=users, callback_data="admin_users")],
-            [InlineKeyboardButton(text="Panel Info", callback_data="panel_info")],
-            [InlineKeyboardButton(text="Broadcast", callback_data="admin_broadcast")],
-            [InlineKeyboardButton(text=settings, callback_data="admin_settings")],
-            [InlineKeyboardButton(text=admins, callback_data="manage_admins")],
+            [await _btn(stats, "admin_stats", "stats", btn_id="admin_stats")],
+            [await _btn(plans, "admin_plans", "plans", btn_id="admin_plans")],
+            [await _btn(receipts, "pending_receipts", "receipts", btn_id="admin_receipts")],
+            [await _btn(users, "admin_users", "users", btn_id="admin_users")],
+            [await _btn("Panel Info", "panel_info", "gear", btn_id="admin_panel_info")],
+            [await _btn(broadcast, "admin_broadcast", "list", btn_id="admin_broadcast")],
+            [await _btn(settings, "admin_settings", "settings", btn_id="admin_settings")],
+            [await _btn(admins, "manage_admins", "admins", btn_id="admin_admins")],
         ]
     )
 
@@ -28,10 +30,10 @@ async def receipt_actions(receipt_id: int) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="Approve", callback_data=f"approve_{receipt_id}"),
-                InlineKeyboardButton(text="Reject", callback_data=f"reject_{receipt_id}"),
+                await _btn("Approve", f"approve_{receipt_id}", "approve", "success", "approve"),
+                await _btn("Reject", f"reject_{receipt_id}", "reject", "danger", "reject"),
             ],
-            [InlineKeyboardButton(text=back, callback_data="admin_menu")],
+            [await _btn(back, "admin_menu", "back", btn_id="back")],
         ]
     )
 
@@ -40,16 +42,16 @@ async def user_actions(user_id: int) -> InlineKeyboardMarkup:
     back = await get_setting("btn_back")
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="View Configs", callback_data=f"admin_cfgs_{user_id}")],
+            [await _btn("View Configs", f"admin_cfgs_{user_id}", "list", btn_id="view_configs")],
             [
-                InlineKeyboardButton(text="+ Add Balance", callback_data=f"add_bal_{user_id}"),
-                InlineKeyboardButton(text="- Remove Balance", callback_data=f"rem_bal_{user_id}"),
+                await _btn("+ Add Balance", f"add_bal_{user_id}", "plus", "success", "add_balance"),
+                await _btn("- Remove Balance", f"rem_bal_{user_id}", "minus", "danger", "remove_balance"),
             ],
             [
-                InlineKeyboardButton(text="Ban", callback_data=f"ban_{user_id}"),
-                InlineKeyboardButton(text="Unban", callback_data=f"unban_{user_id}"),
+                await _btn("Ban", f"ban_{user_id}", "ban", "danger", "ban"),
+                await _btn("Unban", f"unban_{user_id}", "unban", "success", "unban"),
             ],
-            [InlineKeyboardButton(text=back, callback_data="admin_users")],
+            [await _btn(back, "admin_users", "back", btn_id="back")],
         ]
     )
 
@@ -61,16 +63,16 @@ async def admin_settings_menu() -> InlineKeyboardMarkup:
     ft_callback = "toggle_free_test"
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Edit Welcome Text", callback_data="edit_welcome")],
-            [InlineKeyboardButton(text="Edit Button Names", callback_data="edit_buttons")],
-            [InlineKeyboardButton(text="Change Currency Symbol", callback_data="edit_currency")],
-            [InlineKeyboardButton(text="Card Number", callback_data="edit_card_number")],
-            [InlineKeyboardButton(text="Card Owner Name", callback_data="edit_card_owner")],
-            [InlineKeyboardButton(text=f"Free Test Volume", callback_data="edit_free_test_mb")],
-            [InlineKeyboardButton(text=ft_label, callback_data=ft_callback)],
-            [InlineKeyboardButton(text="Auto-Approve Limit", callback_data="edit_auto_approve")],
-            [InlineKeyboardButton(text="Premium Emojis", callback_data="edit_premium_emojis")],
-            [InlineKeyboardButton(text=back, callback_data="admin_menu")],
+            [await _btn("Edit Welcome Text", "edit_welcome", "gear", btn_id="edit_welcome")],
+            [await _btn("Edit Button Names", "edit_buttons", "gear", btn_id="edit_buttons")],
+            [await _btn("Change Currency Symbol", "edit_currency", "gear", btn_id="edit_currency")],
+            [await _btn("Card Number", "edit_card_number", "card", btn_id="edit_card_number")],
+            [await _btn("Card Owner Name", "edit_card_owner", "owner", btn_id="edit_card_owner")],
+            [await _btn("Free Test Volume", "edit_free_test_mb", "gear", btn_id="edit_free_test_mb")],
+            [await _btn(ft_label, ft_callback, "gear", btn_id="toggle_free_test")],
+            [await _btn("Auto-Approve Limit", "edit_auto_approve", "gear", btn_id="edit_auto_approve")],
+            [await _btn("Premium Emojis", "edit_premium_emojis", "star", btn_id="edit_premium_emojis")],
+            [await _btn(back, "admin_menu", "back", btn_id="back")],
         ]
     )
 
@@ -106,7 +108,7 @@ async def buttons_menu() -> InlineKeyboardMarkup:
             [InlineKeyboardButton(text=f"Settings: {btn_settings}", callback_data="edit_btn_admin_settings")],
             [InlineKeyboardButton(text=f"Admins: {btn_admins}", callback_data="edit_btn_admin_admins")],
             [InlineKeyboardButton(text=f"Plans: {btn_plans}", callback_data="edit_btn_admin_plans")],
-            [InlineKeyboardButton(text=back, callback_data="admin_settings")],
+            [await _btn(back, "admin_settings", "back", btn_id="back")],
         ]
     )
 
@@ -122,9 +124,9 @@ async def plans_management_menu() -> InlineKeyboardMarkup:
             text=f"[{status}] {p['name']} | {p['gb']}GB | {p['days']}D | {p['price']:,} {symbol}",
             callback_data=f"plan_detail_{p['id']}",
         )])
-    buttons.append([InlineKeyboardButton(text="+ Add Plan", callback_data="add_plan")])
+    buttons.append([await _btn("+ Add Plan", "add_plan", "plus", "success", "add_plan")])
     back = await get_setting("btn_back")
-    buttons.append([InlineKeyboardButton(text=back, callback_data="admin_menu")])
+    buttons.append([await _btn(back, "admin_menu", "back", btn_id="back")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
@@ -132,9 +134,9 @@ async def plan_actions(plan_id: int) -> InlineKeyboardMarkup:
     back = await get_setting("btn_back")
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Edit Plan", callback_data=f"edit_plan_{plan_id}")],
-            [InlineKeyboardButton(text="Delete Plan", callback_data=f"delete_plan_{plan_id}")],
-            [InlineKeyboardButton(text=back, callback_data="admin_plans")],
+            [await _btn("Edit Plan", f"edit_plan_{plan_id}", "gear", btn_id="edit_plan")],
+            [await _btn("Delete Plan", f"delete_plan_{plan_id}", "cross", "danger", "delete_plan")],
+            [await _btn(back, "admin_plans", "back", btn_id="back")],
         ]
     )
 
@@ -143,7 +145,7 @@ async def back_to_admin() -> InlineKeyboardMarkup:
     back = await get_setting("btn_back")
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text=back, callback_data="admin_menu")]
+            [await _btn(back, "admin_menu", "back", btn_id="back")]
         ]
     )
 
@@ -152,10 +154,10 @@ async def manage_admins_menu() -> InlineKeyboardMarkup:
     back = await get_setting("btn_back")
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="+ Add Admin", callback_data="add_admin")],
-            [InlineKeyboardButton(text="- Remove Admin", callback_data="remove_admin")],
-            [InlineKeyboardButton(text="List Admins", callback_data="list_admins")],
-            [InlineKeyboardButton(text=back, callback_data="admin_menu")],
+            [await _btn("+ Add Admin", "add_admin", "plus", "success", "add_admin")],
+            [await _btn("- Remove Admin", "remove_admin", "minus", "danger", "remove_admin")],
+            [await _btn("List Admins", "list_admins", "list", btn_id="list_admins")],
+            [await _btn(back, "admin_menu", "back", btn_id="back")],
         ]
     )
 
@@ -164,10 +166,10 @@ async def premium_emojis_menu() -> InlineKeyboardMarkup:
     back = await get_setting("btn_back")
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Send Premium Emoji", callback_data="send_emoji_register")],
-            [InlineKeyboardButton(text="View Registered Emojis", callback_data="view_emojis")],
-            [InlineKeyboardButton(text="Clear All Emojis", callback_data="clear_emojis")],
-            [InlineKeyboardButton(text=back, callback_data="admin_settings")],
+            [await _btn("Send Premium Emoji", "send_emoji_register", "star", btn_id="send_emoji_register")],
+            [await _btn("View Registered Emojis", "view_emojis", "list", btn_id="view_emojis")],
+            [await _btn("Clear All Emojis", "clear_emojis", "cross", "danger", "clear_emojis")],
+            [await _btn(back, "admin_settings", "back", btn_id="back")],
         ]
     )
 
@@ -181,7 +183,7 @@ async def user_config_list(configs: list, user_id: int) -> InlineKeyboardMarkup:
             callback_data=f"admin_cfg_{c['id']}_{user_id}",
         )])
     back = await get_setting("btn_back")
-    buttons.append([InlineKeyboardButton(text=back, callback_data=f"view_user_{user_id}")])
+    buttons.append([await _btn(back, f"view_user_{user_id}", "back", btn_id="back")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
@@ -189,7 +191,7 @@ async def config_detail_actions(config_id: int, user_id: int) -> InlineKeyboardM
     back = await get_setting("btn_back")
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Delete Config", callback_data=f"admin_del_cfg_{config_id}_{user_id}")],
-            [InlineKeyboardButton(text=back, callback_data=f"admin_cfgs_{user_id}")],
+            [await _btn("Delete Config", f"admin_del_cfg_{config_id}_{user_id}", "cross", "danger", "delete_plan")],
+            [await _btn(back, f"admin_cfgs_{user_id}", "back", btn_id="back")],
         ]
     )

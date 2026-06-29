@@ -109,24 +109,19 @@ class PanelAPI:
         session = await self._get_session()
         url = f"{self.panel_url}{path}"
         try:
-            async with session.get(
-                url,
-                headers=self._json_headers(),
-                ssl=False,
-                timeout=aiohttp.ClientTimeout(total=15),
-            ) as resp:
-                if resp.status == 200:
-                    return await resp.json()
-                elif resp.status in (401, 403):
-                    if await self.login():
-                        async with session.get(
-                            url,
-                            headers=self._json_headers(),
-                            ssl=False,
-                            timeout=aiohttp.ClientTimeout(total=15),
-                        ) as retry_resp:
-                            if retry_resp.status == 200:
-                                return await retry_resp.json()
+            resp = await session.get(url, headers=self._json_headers(), ssl=False, timeout=aiohttp.ClientTimeout(total=15))
+            if resp.status == 200:
+                data = await resp.json()
+                await resp.release()
+                return data
+            await resp.release()
+            if resp.status in (401, 403):
+                if await self.login():
+                    resp2 = await session.get(url, headers=self._json_headers(), ssl=False, timeout=aiohttp.ClientTimeout(total=15))
+                    data2 = await resp2.json()
+                    await resp2.release()
+                    if resp2.status == 200:
+                        return data2
         except Exception as e:
             logger.error(f"Panel GET error: {e}")
         return None
@@ -143,15 +138,31 @@ class PanelAPI:
                 kwargs["data"] = urlencode(data or {})
                 kwargs["headers"] = self._headers()
 
-            async with session.post(url, **kwargs) as resp:
-                if resp.status == 200:
-                    return await resp.json()
-                elif resp.status in (401, 403):
-                    if await self.login():
-                        kwargs["headers"] = self._json_headers() if use_json else self._headers()
-                        async with session.post(url, **kwargs) as retry_resp:
-                            if retry_resp.status == 200:
-                                return await retry_resp.json()
+            resp = await session.post(url, **kwargs)
+            body = await resp.text()
+            if resp.status == 200:
+                await resp.release()
+                return json.loads(body)
+            elif resp.status in (401, 403):
+                await resp.release()
+                if await self.login():
+                    if use_json:
+                        kwargs["headers"] = self._json_headers()
+                    else:
+                        kwargs["headers"] = self._headers()
+                    resp2 = await session.post(url, **kwargs)
+                    body2 = await resp2.text()
+                    if resp2.status == 200:
+                        await resp2.release()
+                        return json.loads(body2)
+                    else:
+                        logger.error(f"Panel POST retry {resp2.status}: {body2[:200]}")
+                    await resp2.release()
+                else:
+                    logger.error("Panel login failed during retry")
+            else:
+                logger.error(f"Panel POST {resp.status}: {url} -> {body[:200]}")
+            await resp.release()
         except Exception as e:
             logger.error(f"Panel POST error: {e}")
         return None
@@ -207,9 +218,13 @@ class PanelAPI:
                 "inboundIds": [inbound_id],
             }
 
+            logger.info(f"Adding client '{email}' to inbound {inbound_id}...")
             result = await self._post("/panel/api/clients/add", client_payload)
+            logger.info(f"Result: {result}")
             if result and result.get("success"):
                 success_count += 1
+            else:
+                logger.error(f"Failed to add client to inbound {inbound_id}: {result}")
 
         if success_count > 0:
             return {"uuid": user_uuid, "sub_id": sub_id, "email": email}

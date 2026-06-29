@@ -5,8 +5,10 @@ from config import DB_PATH, ADMIN_IDS
 
 
 async def get_db():
-    db = await aiosqlite.connect(DB_PATH)
+    db = await aiosqlite.connect(DB_PATH, timeout=10)
     db.row_factory = aiosqlite.Row
+    await db.execute("PRAGMA journal_mode=WAL")
+    await db.execute("PRAGMA busy_timeout=5000")
     return db
 
 
@@ -95,13 +97,19 @@ async def init_db():
         "btn_admin_plans": "\U0001f4c8 Plans",
         "card_number": "1234-5678-9012-3456",
         "card_owner": "Card Owner Name",
-        "btn_c2c_payment": "\U0001f4b3 Card to Card",
+        "btn_c2c_payment": "\U0001f4b3 کارت به کارت",
         "btn_wallet_payment": "\U0001f4b0 Pay with Wallet",
         "c2c_title": "\U0001f4b3 **Card to Card Payment**",
         "c2c_instruction": "Send the exact amount to the card below, then upload your payment receipt.",
         "free_test_mb": "102400",
         "free_test_enabled": "1",
         "auto_approve_max": "0",
+        "force_join_enabled": "0",
+        "required_channel_id": "",
+        "force_join_text": "⚠️ برای استفاده از ربات، ابتدا باید در کانال ما عضو شوید!",
+        "force_join_fail_text": "❌ شما هنوز در کانال عضو نیستید! لطفاً ابتدا عضو شوید و سپس دوباره بررسی کنید.",
+        "force_join_btn_join": "🔗 عضویت در کانال",
+        "force_join_btn_check": "✅ بررسی عضویت",
         "panel_url": "",
         "panel_user": "",
         "panel_pass": "",

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Button Settings{% endblock %}
+{% block content %}
+<div class="page-header d-flex justify-content-between align-items-center">
+    <h3>Button Settings</h3>
+    <button type="submit" form="buttonsForm" class="btn btn-success">
+        <i class="bi bi-check-lg"></i> Save All
+    </button>
+</div>
+
+<div class="card card-dark mb-4">
+    <div class="card-header"><i class="bi bi-info-circle"></i> How to set premium emoji</div>
+    <div class="card-body">
+        <p class="mb-1">1. Go to <b>Admin Settings &rarr; Premium Emojis &rarr; Send Premium Emoji</b></p>
+        <p class="mb-1">2. Type the emoji name (e.g. <code>wallet</code>, <code>copy_number</code>) and send the premium emoji</p>
+        <p class="mb-0">3. Copy the emoji ID from the bot reply and paste it below in the <b>Emoji ID</b> field</p>
+        {% for name, data in registered.items() %}
+        <code class="me-2">{{ name }}: {{ data }}</code>
+        {% endfor %}
+    </div>
+</div>
+
+<form id="buttonsForm" method="POST">
+<div class="row g-4">
+    {% for btn_id, btn in buttons.items() %}
+    <div class="col-lg-6">
+        <div class="card card-dark">
+            <div class="card-header">
+                <i class="bi bi-hand-index-thumb"></i> {{ btn.label }}
+                <small class="text-muted ms-2">({{ btn_id }})</small>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Emoji ID</label>
+                    <input type="text" name="btn_emoji_{{ btn_id }}" class="form-control"
+                           value="{{ btn.emoji }}"
+                           placeholder="Paste premium emoji ID here">
+                    <div class="form-text">Default emoji name: <code>{{ btn.current_emoji_name }}</code></div>
+                </div>
+                <div class="mb-0">
+                    <label class="form-label">Button Style</label>
+                    <select name="btn_style_{{ btn_id }}" class="form-select">
+                        {% for val, label in styles %}
+                        <option value="{{ val }}" {{ 'selected' if btn.style == val }}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</form>
+{% endblock %}

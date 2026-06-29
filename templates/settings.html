@@ -15,6 +15,10 @@
             <div class="card-header"><i class="bi bi-chat-dots"></i> General</div>
             <div class="card-body">
                 <div class="mb-3">
+                    <label class="form-label">Bot Token</label>
+                    <input type="password" name="bot_token" class="form-control" value="{{ settings.get('bot_token', '') }}" placeholder="Enter bot token">
+                </div>
+                <div class="mb-3">
                     <label class="form-label">Welcome Text</label>
                     <textarea name="welcome_text" class="form-control" rows="3">{{ settings.get('welcome_text', '') }}</textarea>
                 </div>
@@ -82,6 +86,64 @@
                 <div class="mb-3">
                     <label class="form-label">Auto-Approve Max Amount (0 = disabled)</label>
                     <input type="number" name="auto_approve_max" class="form-control" value="{{ settings.get('auto_approve_max', '0') }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-dark mt-4">
+            <div class="card-header"><i class="bi bi-broadcast"></i> Force Channel Join</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Force Join Enabled</label>
+                        <select name="force_join_enabled" class="form-select">
+                            <option value="1" {{ 'selected' if settings.get('force_join_enabled') == '1' }}>Enabled</option>
+                            <option value="0" {{ 'selected' if settings.get('force_join_enabled') == '0' }}>Disabled</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Channel ID or Username</label>
+                        <input type="text" name="required_channel_id" class="form-control" placeholder="@mychannel or -1001234567890" value="{{ settings.get('required_channel_id', '') }}">
+                        <div class="form-text">Channel username (e.g. mychannel) or numeric ID (e.g. -1001234567890)</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Force Join Message (Persian)</label>
+                    <textarea name="force_join_text" class="form-control" rows="2">{{ settings.get('force_join_text', '⚠️ برای استفاده از ربات، ابتدا باید در کانال ما عضو شوید!') }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Membership Check Failed Message (Persian)</label>
+                    <textarea name="force_join_fail_text" class="form-control" rows="2">{{ settings.get('force_join_fail_text', '❌ شما هنوز در کانال عضو نیستید! لطفاً ابتدا عضو شوید و سپس دوباره بررسی کنید.') }}</textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Join Channel Button Text</label>
+                        <input type="text" name="force_join_btn_join" class="form-control" value="{{ settings.get('force_join_btn_join', '🔗 عضویت در کانال') }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Join Channel Button Style</label>
+                        <select name="btn_style_force_join_join" class="form-select">
+                            <option value="" {{ 'selected' if not settings.get('btn_style_force_join_join') }}>Default</option>
+                            <option value="primary" {{ 'selected' if settings.get('btn_style_force_join_join') == 'primary' }}>Primary</option>
+                            <option value="success" {{ 'selected' if settings.get('btn_style_force_join_join') == 'success' }}>Success</option>
+                            <option value="danger" {{ 'selected' if settings.get('btn_style_force_join_join') == 'danger' }}>Danger</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Check Membership Button Text</label>
+                        <input type="text" name="force_join_btn_check" class="form-control" value="{{ settings.get('force_join_btn_check', '✅ بررسی عضویت') }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Check Membership Button Style</label>
+                        <select name="btn_style_force_join_check" class="form-select">
+                            <option value="" {{ 'selected' if not settings.get('btn_style_force_join_check') }}>Default</option>
+                            <option value="primary" {{ 'selected' if settings.get('btn_style_force_join_check') == 'primary' }}>Primary</option>
+                            <option value="success" {{ 'selected' if settings.get('btn_style_force_join_check') == 'success' }}>Success</option>
+                            <option value="danger" {{ 'selected' if settings.get('btn_style_force_join_check') == 'danger' }}>Danger</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
