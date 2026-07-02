@@ -41,13 +41,13 @@ else
 fi
 
 # Setup venv
-echo "[3/6] Installing Python packages..."
+echo "[3/6] Installing Python packages (this may take 1-2 minutes)..."
 if [ ! -d "venv" ]; then
     python3 -m venv venv
 fi
 source venv/bin/activate
 pip install --upgrade pip -q 2>/dev/null
-pip install -r requirements.txt -q
+pip install -r requirements.txt --only-binary=:all: -q 2>/dev/null || pip install -r requirements.txt -q
 
 # Interactive .env setup
 echo "[4/6] Configuring..."
