@@ -61,8 +61,19 @@ Run this on your server (Ubuntu/Debian):
 
 این دستور را روی سرور خود اجرا کنید (Ubuntu/Debian):
 
+**Option 1:**
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/Smertam/3-xui-telbot/master/setup.sh)
+curl -sL https://raw.githubusercontent.com/Smertam/3-xui-telbot/master/setup.sh | sudo bash
+```
+
+**Option 2:**
+```bash
+wget -qO- https://raw.githubusercontent.com/Smertam/3-xui-telbot/master/setup.sh | sudo bash
+```
+
+**Option 3:**
+```bash
+sudo bash -c "$(curl -sL https://raw.githubusercontent.com/Smertam/3-xui-telbot/master/setup.sh)"
 ```
 
 The installer will ask you for:
