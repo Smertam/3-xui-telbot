@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 REPO="https://github.com/Smertam/3-xui-telbot.git"
 INSTALL_DIR="/root/robot"
@@ -10,10 +9,16 @@ echo "       Robot Installer"
 echo "========================================="
 echo ""
 
+# Check root
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run as root: sudo bash setup.sh"
+    exit 1
+fi
+
 # Install system dependencies
 echo "[1/6] Installing system dependencies..."
-apt update -qq
-apt install -y -qq python3 python3-venv python3-pip >/dev/null 2>&1
+apt-get update -qq > /dev/null 2>&1 || yum update -qq > /dev/null 2>&1
+apt-get install -y -qq git python3 python3-venv python3-pip > /dev/null 2>&1 || yum install -y -qq git python3 python3-pip > /dev/null 2>&1
 
 # Clone or pull
 echo "[2/6] Downloading files..."
@@ -28,8 +33,9 @@ fi
 
 # Setup venv
 echo "[3/6] Installing Python packages..."
-python3 -m venv venv
+python3 -m venv venv 2>/dev/null || python3 -m virtualenv venv 2>/dev/null
 source venv/bin/activate
+pip install --upgrade pip -q
 pip install -r requirements.txt -q
 
 # Interactive .env setup
@@ -42,7 +48,7 @@ read -p "Notification Channel ID (leave empty to skip): " CHANNEL_ID
 
 echo ""
 echo "--- Panel Settings ---"
-read -p "Panel URL (e.g. https://example.com:5443/something): " PANEL_URL
+read -p "Panel URL (e.g. https://example.com:5443/path): " PANEL_URL
 read -p "Panel Username: " PANEL_USER
 read -p "Panel Password: " PANEL_PASS
 
@@ -63,7 +69,7 @@ read -p "Web Panel Password (default admin): " ADMIN_WEB_PASS
 ADMIN_WEB_PASS=${ADMIN_WEB_PASS:-admin}
 read -p "Web Panel Port (default 5000): " WEB_PORT
 WEB_PORT=${WEB_PORT:-5000}
-SECRET_KEY=$(openssl rand -hex 16 2>/dev/null || head -c 32 /dev/urandom | od -An -tx1 | tr -d ' \n' | head -c 32)
+SECRET_KEY=$(openssl rand -hex 16 2>/dev/null || cat /dev/urandom | tr -dc 'a-f0-9' | head -c 32)
 
 # Write .env
 cat > .env <<EOF
@@ -91,7 +97,11 @@ echo ""
 echo "[5/6] Starting robot..."
 
 # Kill old process
-kill -9 $(lsof -ti:$WEB_PORT) 2>/dev/null || true
+OLD_PID=$(lsof -ti:$WEB_PORT 2>/dev/null)
+if [ -n "$OLD_PID" ]; then
+    kill -9 $OLD_PID 2>/dev/null
+fi
+sleep 1
 
 # Start bot
 nohup ./venv/bin/python run.py > bot.log 2>&1 &
@@ -104,6 +114,7 @@ if lsof -ti:$WEB_PORT >/dev/null 2>&1; then
     echo "  Robot is running!"
     echo "  Web Panel: http://YOUR_IP:$WEB_PORT"
     echo "  Login: $ADMIN_WEB_USER / $ADMIN_WEB_PASS"
+    echo "  Bot Log: tail -f $INSTALL_DIR/bot.log"
     echo "========================================="
 else
     echo "========================================="
