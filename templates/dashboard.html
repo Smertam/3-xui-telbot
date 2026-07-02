@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h3>Dashboard</h3>
+</div>
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3">
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary"><i class="bi bi-people"></i></div>
+                <div>
+                    <div class="stat-value">{{ user_count }}</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3">
+                <div class="stat-icon bg-success bg-opacity-10 text-success"><i class="bi bi-key"></i></div>
+                <div>
+                    <div class="stat-value">{{ config_count }}</div>
+                    <div class="stat-label">Active Configs</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3">
+                <div class="stat-icon bg-warning bg-opacity-10 text-warning"><i class="bi bi-currency-dollar"></i></div>
+                <div>
+                    <div class="stat-value">{{ "{:,.0f}".format(revenue) }}</div>
+                    <div class="stat-label">Revenue ({{ symbol }})</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center gap-3">
+                <div class="stat-icon bg-danger bg-opacity-10 text-danger"><i class="bi bi-hourglass-split"></i></div>
+                <div>
+                    <div class="stat-value">{{ pending }}</div>
+                    <div class="stat-label">Pending Receipts</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card card-dark">
+            <div class="card-header"><i class="bi bi-lightning"></i> Quick Actions</div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{{ url_for('receipts') }}" class="btn btn-outline-warning btn-sm">
+                        <i class="bi bi-receipt"></i> Review Receipts
+                    </a>
+                    <a href="{{ url_for('users') }}" class="btn btn-outline-info btn-sm">
+                        <i class="bi bi-people"></i> Manage Users
+                    </a>
+                    <a href="{{ url_for('settings') }}" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-gear"></i> Bot Settings
+                    </a>
+                    <a href="{{ url_for('plans') }}" class="btn btn-outline-success btn-sm">
+                        <i class="bi bi-tags"></i> Manage Plans
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card card-dark">
+            <div class="card-header"><i class="bi bi-info-circle"></i> Bot Status</div>
+            <div class="card-body">
+                <p class="mb-2"><strong>Database:</strong> <span class="text-success">Connected</span></p>
+                <p class="mb-2"><strong>Bot Token:</strong> <span class="text-success">Configured</span></p>
+                <p class="mb-0"><strong>Panel API:</strong> <span class="text-info">3x-ui</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

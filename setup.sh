@@ -2,6 +2,7 @@
 
 REPO="https://github.com/Smertam/3-xui-telbot.git"
 INSTALL_DIR="/root/robot"
+BRANCH="master"
 
 echo ""
 echo "========================================="
@@ -23,22 +24,19 @@ apt-get install -y -qq git python3 python3-venv python3-pip > /dev/null 2>&1
 # Setup directory
 echo "[2/6] Downloading files..."
 if [ -d "$INSTALL_DIR/.git" ]; then
-    # Git repo exists, just pull
     cd "$INSTALL_DIR"
+    git checkout $BRANCH -q 2>/dev/null
     git pull -q
     echo "Updated existing installation."
 elif [ -d "$INSTALL_DIR" ]; then
-    # Directory exists but no .git (manual upload)
-    echo "Existing folder found. Converting to git..."
     cd "$INSTALL_DIR"
     git init -q
     git remote add origin "$REPO" 2>/dev/null || git remote set-url origin "$REPO"
-    git fetch origin main -q
-    git reset --hard origin/main -q
+    git fetch origin $BRANCH -q
+    git checkout $BRANCH -q
     echo "Converted to git repository."
 else
-    # Fresh install
-    git clone "$REPO" "$INSTALL_DIR" -q
+    git clone -b $BRANCH "$REPO" "$INSTALL_DIR" -q
     cd "$INSTALL_DIR"
 fi
 
@@ -55,14 +53,18 @@ pip install -r requirements.txt -q
 echo "[4/6] Configuring..."
 echo ""
 
-# Read existing .env values if they exist
-OLD_TOKEN=$(grep BOT_TOKEN .env 2>/dev/null | cut -d= -f2)
-OLD_ADMIN=$(grep ADMIN_IDS .env 2>/dev/null | cut -d= -f2)
-OLD_PANEL_URL=$(grep PANEL_URL .env 2>/dev/null | cut -d= -f2)
-OLD_PANEL_USER=$(grep PANEL_USER .env 2>/dev/null | cut -d= -f2)
-OLD_PANEL_PASS=$(grep PANEL_PASS .env 2>/dev/null | cut -d= -f2)
+OLD_TOKEN=""
+OLD_ADMIN=""
+OLD_PANEL_URL=""
+OLD_PANEL_USER=""
+OLD_PANEL_PASS=""
 
-if [ -n "$OLD_TOKEN" ]; then
+if [ -f .env ]; then
+    OLD_TOKEN=$(grep BOT_TOKEN .env 2>/dev/null | cut -d= -f2)
+    OLD_ADMIN=$(grep ADMIN_IDS .env 2>/dev/null | cut -d= -f2)
+    OLD_PANEL_URL=$(grep PANEL_URL .env 2>/dev/null | cut -d= -f2)
+    OLD_PANEL_USER=$(grep PANEL_USER .env 2>/dev/null | cut -d= -f2)
+    OLD_PANEL_PASS=$(grep PANEL_PASS .env 2>/dev/null | cut -d= -f2)
     echo "Existing .env found. Press Enter to keep current value."
     echo ""
 fi

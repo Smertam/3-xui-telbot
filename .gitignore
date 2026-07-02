@@ -1,0 +1,58 @@
+# Environment & secrets
+.env
+*.env
+
+# Database
+*.db
+*.db-wal
+*.db-shm
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+
+# Temporary / helper scripts
+*.py
+!api.py
+!bot.py
+!config.py
+!database.py
+!run.py
+!scheduler.py
+!state.py
+!web_app.py
+!web_db.py
+!handlers/__init__.py
+!handlers/admin.py
+!handlers/callback.py
+!handlers/user.py
+!handlers/wallet.py
+!keyboards/__init__.py
+!keyboards/admin.py
+!keyboards/user.py
+!middlewares/__init__.py
+!utils/__init__.py
+!utils/premium_emoji.py
+!utils/qr_generator.py
+!utils/texts.py
+see.txt
+config.txt
+settings_dump.txt
+
+# Backup folder
+backup/
+
+# MiMoCode
+.mimocode/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

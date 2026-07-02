@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit Plan' if plan else 'Add Plan' }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h3>{{ 'Edit Plan' if plan else 'Add New Plan' }}</h3>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card card-dark">
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Plan Name</label>
+                        <input type="text" name="name" class="form-control" required
+                               value="{{ plan.name if plan else '' }}" placeholder="e.g., 1 Month">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Volume (GB)</label>
+                            <input type="number" name="gb" class="form-control" required min="1"
+                                   value="{{ plan.gb if plan else '' }}" placeholder="50">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Duration (Days)</label>
+                            <input type="number" name="days" class="form-control" required min="1"
+                                   value="{{ plan.days if plan else '' }}" placeholder="30">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Price</label>
+                        <input type="number" name="price" class="form-control" required min="1"
+                               value="{{ plan.price if plan else '' }}" placeholder="150000">
+                    </div>
+                    {% if plan %}
+                    <div class="mb-3 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="is_active" id="isActive"
+                               {{ 'checked' if plan.is_active }}>
+                        <label class="form-check-label" for="isActive">Active</label>
+                    </div>
+                    {% endif %}
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg"></i> {{ 'Update' if plan else 'Create' }}
+                        </button>
+                        <a href="{{ url_for('plans') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
