@@ -17,40 +17,71 @@ fi
 
 # Install system dependencies
 echo "[1/6] Installing system dependencies..."
-apt-get update -qq > /dev/null 2>&1 || yum update -qq > /dev/null 2>&1
-apt-get install -y -qq git python3 python3-venv python3-pip > /dev/null 2>&1 || yum install -y -qq git python3 python3-pip > /dev/null 2>&1
+apt-get update -qq > /dev/null 2>&1
+apt-get install -y -qq git python3 python3-venv python3-pip > /dev/null 2>&1
 
-# Clone or pull
+# Setup directory
 echo "[2/6] Downloading files..."
 if [ -d "$INSTALL_DIR/.git" ]; then
+    # Git repo exists, just pull
     cd "$INSTALL_DIR"
     git pull -q
+    echo "Updated existing installation."
+elif [ -d "$INSTALL_DIR" ]; then
+    # Directory exists but no .git (manual upload)
+    echo "Existing folder found. Converting to git..."
+    cd "$INSTALL_DIR"
+    git init -q
+    git remote add origin "$REPO" 2>/dev/null || git remote set-url origin "$REPO"
+    git fetch origin main -q
+    git reset --hard origin/main -q
+    echo "Converted to git repository."
 else
-    rm -rf "$INSTALL_DIR"
+    # Fresh install
     git clone "$REPO" "$INSTALL_DIR" -q
     cd "$INSTALL_DIR"
 fi
 
 # Setup venv
 echo "[3/6] Installing Python packages..."
-python3 -m venv venv 2>/dev/null || python3 -m virtualenv venv 2>/dev/null
+if [ ! -d "venv" ]; then
+    python3 -m venv venv
+fi
 source venv/bin/activate
-pip install --upgrade pip -q
+pip install --upgrade pip -q 2>/dev/null
 pip install -r requirements.txt -q
 
 # Interactive .env setup
 echo "[4/6] Configuring..."
 echo ""
+
+# Read existing .env values if they exist
+OLD_TOKEN=$(grep BOT_TOKEN .env 2>/dev/null | cut -d= -f2)
+OLD_ADMIN=$(grep ADMIN_IDS .env 2>/dev/null | cut -d= -f2)
+OLD_PANEL_URL=$(grep PANEL_URL .env 2>/dev/null | cut -d= -f2)
+OLD_PANEL_USER=$(grep PANEL_USER .env 2>/dev/null | cut -d= -f2)
+OLD_PANEL_PASS=$(grep PANEL_PASS .env 2>/dev/null | cut -d= -f2)
+
+if [ -n "$OLD_TOKEN" ]; then
+    echo "Existing .env found. Press Enter to keep current value."
+    echo ""
+fi
+
 echo "--- Bot Settings ---"
-read -p "Bot Token (from @BotFather): " BOT_TOKEN
-read -p "Admin Telegram IDs (comma separated, e.g. 123456,789012): " ADMIN_IDS
+read -p "Bot Token [$OLD_TOKEN]: " BOT_TOKEN
+BOT_TOKEN=${BOT_TOKEN:-$OLD_TOKEN}
+read -p "Admin Telegram IDs [$OLD_ADMIN]: " ADMIN_IDS
+ADMIN_IDS=${ADMIN_IDS:-$OLD_ADMIN}
 read -p "Notification Channel ID (leave empty to skip): " CHANNEL_ID
 
 echo ""
 echo "--- Panel Settings ---"
-read -p "Panel URL (e.g. https://example.com:5443/path): " PANEL_URL
-read -p "Panel Username: " PANEL_USER
-read -p "Panel Password: " PANEL_PASS
+read -p "Panel URL [$OLD_PANEL_URL]: " PANEL_URL
+PANEL_URL=${PANEL_URL:-$OLD_PANEL_URL}
+read -p "Panel Username [$OLD_PANEL_USER]: " PANEL_USER
+PANEL_USER=${PANEL_USER:-$OLD_PANEL_USER}
+read -p "Panel Password [$OLD_PANEL_PASS]: " PANEL_PASS
+PANEL_PASS=${PANEL_PASS:-$OLD_PANEL_PASS}
 
 echo ""
 echo "--- Config Defaults ---"
