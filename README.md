@@ -1,97 +1,126 @@
-# 3x-ui Telegram Bot
+# 3X-UI Telegram Bot / ربات تلگرامی 3X-UI
 
-A complete Python Telegram bot using aiogram that integrates with 3x-ui panel for selling VPN configs with a wallet-based payment system.
+A Telegram bot for selling VPN configs (VLESS/VMess) connected to a 3x-ui panel. Includes a web admin panel for managing users, plans, configs, and settings.
 
-## Features
+ربات تلگرامی برای فروش کانفیگ VPN (VLESS/VMess) متصل به پنل 3x-ui. دارای پنل مدیریت وب برای مدیریت کاربران، پلن‌ها، کانفیگ‌ها و تنظیمات.
 
-### User Features
-- **Wallet System**: Top up balance via manual receipt upload
-- **Free Test**: One free test config (24h validity)
-- **Buy Configs**: Purchase monthly subscription configs
-- **My Configs**: View and manage active configs
-- **QR Codes**: Subscription links with QR codes
+---
 
-### Admin Features
-- **Receipt Management**: Approve/reject payment receipts
-- **User Management**: Search, view, ban/unban users
-- **Statistics**: View total users, configs, revenue
-- **Settings**: Edit welcome text, config price, duration
-- **Multi-Admin**: Add/remove admin users
+## Features / قابلیت‌ها
 
-## Setup
+- Buy VPN config (card-to-card & wallet payment)
+- Free test config
+- My Services (QR code, sub link, volume info, change link)
+- Buy extra volume
+- Admin panel (users, plans, receipts, stats, settings)
+- Button customization (emoji & style)
+- Menu layout editor
+- Bot text customization
+- Force join channel
+- New user & receipt notifications
 
-### 1. Install Dependencies
+- خرید کانفیگ VPN (کارت به کارت و کیف پول)
+- کانفیگ رایگان تست
+- سرویس‌های من (کد QR، لینک اشتراک، اطلاعات حجم، تغییر لینک)
+- خرید حجم اضافه
+- پنل مدیریت (کاربران، پلن‌ها، رسیدها، آمار، تنظیمات)
+- سفارشی‌سازی دکمه‌ها (ایموجی و استایل)
+- ویرایشگر لایوت منو
+- سفارشی‌سازی متن‌های ربات
+- اجبار به عضویت در کانال
+- اعلان کاربر جدید و رسید
+
+---
+
+## One-Command Install / نصب با یک دستور
+
+Run this on your server (Ubuntu/Debian):
+
+این دستور را روی سرور خود اجرا کنید (Ubuntu/Debian):
+
 ```bash
+bash <(curl -s https://raw.githubusercontent.com/Smertam/3-xui-telbot/master/setup.sh)
+```
+
+The installer will ask you for:
+
+نصب‌کننده از شما می‌پرسد:
+
+| Field | توضیح |
+|-------|-------|
+| Bot Token | From @BotFather / از @BotFather |
+| Admin IDs | Your Telegram user ID / آیدی تلگرام شما |
+| Channel ID | Notification channel (optional) / کانال اعلان (اختیاری) |
+| Panel URL | 3x-ui panel URL / آدرس پنل 3x-ui |
+| Panel User | Panel username / نام کاربری پنل |
+| Panel Pass | Panel password / رمز پنل |
+| Config Price | Default price / قیمت پیش‌فرض |
+| Free Test Days | Trial duration / مدت تست رایگان |
+| Config Months | Config duration / مدت اعتبار کانفیگ |
+| Web Panel User | Admin panel login / نام کاربری پنل مدیریت |
+| Web Panel Pass | Admin panel password / رمز پنل مدیریت |
+| Web Panel Port | Default 5000 / پیش‌فرض 5000 |
+
+---
+
+## Manual Install / نصب دستی
+
+```bash
+git clone https://github.com/Smertam/3-xui-telbot.git /root/robot
+cd /root/robot
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
-```
-
-### 2. Configure Environment
-Copy `.env.example` to `.env` and fill in your credentials:
-```bash
 cp .env.example .env
+nano .env  # Fill in your credentials
+nohup ./venv/bin/python run.py > bot.log 2>&1 &
 ```
 
-Edit `.env`:
-```
-BOT_TOKEN=your_bot_token_here
-ADMIN_IDS=your_telegram_id
+git clone https://github.com/Smertam/3-xui-telbot.git /root/robot
+cd /root/robot
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+nano .env  # اطلاعات خود را وارد کنید
+nohup ./venv/bin/python run.py > bot.log 2>&1 &
 
-PANEL_URL=https://your-panel-domain.com
-PANEL_USER=admin
-PANEL_PASS=your_panel_password
+---
 
-CONFIG_PRICE=5.00
-FREE_TEST_DAYS=1
-CONFIG_MONTHS=1
-```
+## Update / بروزرسانی
 
-### 3. Run the Bot
 ```bash
-python bot.py
+cd /root/robot
+git pull
+source venv/bin/activate
+pip install -r requirements.txt
+kill -9 $(lsof -ti:5000)
+nohup ./venv/bin/python run.py > bot.log 2>&1 &
 ```
 
-## Project Structure
+---
 
-```
-3x-ui-bot/
-├── bot.py              # Main entry point
-├── config.py           # Configuration
-├── database.py         # Database operations
-├── api.py              # 3x-ui API integration
-├── handlers/
-│   ├── user.py         # User commands
-│   ├── wallet.py       # Wallet operations
-│   ├── admin.py        # Admin panel
-│   └── callback.py     # Callback handlers
-├── keyboards/
-│   ├── user.py         # User keyboards
-│   └── admin.py        # Admin keyboards
-├── utils/
-│   ├── qr_generator.py # QR code generation
-│   └── texts.py        # Message templates
-├── middlewares/
-│   └── __init__.py     # Auth middleware
-├── requirements.txt
-├── .env.example
-└── README.md
-```
+## Web Panel / پنل مدیریت
 
-## Bot Commands
+Access at `http://YOUR_IP:5000`
 
-### User Commands
-- `/start` - Welcome message and registration
-- `/menu` - Main menu
+دسترسی از `http://YOUR_IP:5000`
 
-### Admin Commands
-- `/admin` - Admin panel
+Manage: users, plans, configs, receipts, settings, bot texts, button styles, menu layout.
 
-## 3x-ui Panel Requirements
+مدیریت: کاربران، پلن‌ها، کانفیگ‌ها، رسیدها، تنظیمات، متن‌های ربات، استایل دکمه‌ها، لایوت منو.
 
-The bot expects a 3x-ui panel with:
-- VLESS protocol inbound configured
-- API access enabled
-- Valid admin credentials
+---
 
-## License
+## Tech Stack / تکنولوژی‌ها
+
+- Python 3 + aiogram 3
+- Flask (web admin panel)
+- SQLite (bot_database.db)
+- 3x-ui / Xray panel API
+
+---
+
+## License / لایسنس
 
 MIT
