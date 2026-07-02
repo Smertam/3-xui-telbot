@@ -32,6 +32,29 @@ A Telegram bot for selling VPN configs (VLESS/VMess) connected to a 3x-ui panel.
 
 ---
 
+## Screenshots / اسکرین‌شات‌ها
+
+### Bot Menu / منوی ربات
+![Bot Menu](screenshots/bot_menu.png)
+
+### Buy Config / خرید کانفیگ
+![Buy Config](screenshots/buy_config.png)
+
+### My Services / سرویس‌های من
+![My Services](screenshots/my_services.png)
+
+### Web Panel Dashboard / پنل مدیریت
+![Web Panel](screenshots/web_panel.png)
+
+### Settings Page / صفحه تنظیمات
+![Settings](screenshots/settings.png)
+
+> **Note:** Replace the images in the `screenshots/` folder with your own screenshots.
+>
+> **توجه:** تصاویر پوشه `screenshots/` را با اسکرین‌شات‌های خود جایگزین کنید.
+
+---
+
 ## One-Command Install / نصب با یک دستور
 
 Run this on your server (Ubuntu/Debian):
