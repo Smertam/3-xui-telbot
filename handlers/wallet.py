@@ -123,7 +123,7 @@ async def process_photo(message: Message, state: FSMContext):
     amount = data.get("amount", 0)
     photo_file_id = message.photo[-1].file_id
 
-    await add_receipt(message.from_user.id, amount, photo_file_id, plan_id=0)
+    receipt_id = await add_receipt(message.from_user.id, amount, photo_file_id, plan_id=0)
     await state.clear()
     symbol = await get_setting("currency_symbol") or "تومان"
 
@@ -156,22 +156,15 @@ async def process_photo(message: Message, state: FSMContext):
             reply_markup=await back_to_menu(),
         )
 
-    admins = await get_admins()
-    for admin in admins:
-        try:
-            await message.bot.send_photo(
-                chat_id=admin["user_id"],
-                photo=photo_file_id,
-                caption=(
-                    f"**New Receipt** (Top Up)\n\n"
-                    f"User: @{message.from_user.username or 'N/A'} (ID: {message.from_user.id})\n"
-                    f"Amount: {amount:,.0f} {symbol}\n\n"
-                    f"Use /admin to review."
-                ),
-                parse_mode="Markdown",
-            )
-        except Exception:
-            pass
+    from handlers.user import _send_receipt_to_channel
+    await _send_receipt_to_channel(
+        message.bot, photo_file_id,
+        f"**New Receipt** (Top Up)\n\n"
+        f"User: @{message.from_user.username or 'N/A'} (ID: {message.from_user.id})\n"
+        f"Amount: {amount:,.0f} {symbol}\n\n"
+        f"Use /admin to review.",
+        receipt_id=receipt_id,
+    )
 
 
 @router.callback_query(F.data == "cancel_receipt")

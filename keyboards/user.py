@@ -29,22 +29,101 @@ async def _btn(text: str, callback_data: str, emoji_name: str = None, style: str
     return InlineKeyboardButton(**kwargs)
 
 
+async def _url_btn(btn_id: str, url: str, emoji_name: str, default_style: str = "") -> InlineKeyboardButton:
+    text = await get_setting(f"btn_{btn_id}") or btn_id.replace("_", " ").title()
+    kwargs = {"text": text, "url": url}
+    db_emoji = await get_setting(f"btn_emoji_{btn_id}")
+    if db_emoji:
+        kwargs["icon_custom_emoji_id"] = db_emoji
+    elif emoji_name:
+        eid = await get_button_emoji_id(emoji_name)
+        if eid:
+            kwargs["icon_custom_emoji_id"] = eid
+    db_style = await get_setting(f"btn_style_{btn_id}")
+    if db_style:
+        kwargs["style"] = db_style
+    elif default_style:
+        kwargs["style"] = default_style
+    return InlineKeyboardButton(**kwargs)
+
+
 async def main_menu(user_id: int = 0) -> InlineKeyboardMarkup:
-    wallet = await get_setting("btn_wallet")
-    free_test = await get_setting("btn_free_test")
-    buy_config = await get_setting("btn_buy_config")
-    my_configs = await get_setting("btn_my_configs")
-    free_test_enabled = await get_setting("free_test_enabled")
-    rows = [
-        [await _btn(wallet, "wallet", "wallet", "primary", "wallet")],
-    ]
-    if free_test_enabled == "1":
-        rows[0].append(await _btn(free_test, "free_test", "free_test", "primary", "free_test"))
-    rows.append([await _btn(buy_config, "buy_config", "buy_config", "primary", "buy_config")])
-    rows.append([await _btn(my_configs, "my_configs", "my_configs", "success", "my_configs")])
-    if user_id and await is_admin(user_id):
-        btn = await get_setting("btn_admin_settings")
-        rows.append([await _btn(btn, "admin_menu", "settings", btn_id="admin_settings")])
+    import json
+
+    raw = await get_setting("menu_layout") or "[]"
+    try:
+        layout = json.loads(raw)
+    except Exception:
+        layout = []
+
+    if not layout:
+        default_order = ["wallet", "free_test", "buy_config", "my_configs", "channel", "support", "admin"]
+        layout = [{"type": "builtin", "id": bid, "enabled": True} for bid in default_order]
+
+    async def make_builtin_btn(bid):
+        if bid == "wallet":
+            return await _btn(await get_setting("btn_wallet"), "wallet", "wallet", "primary", "wallet")
+        elif bid == "free_test":
+            return await _btn(await get_setting("btn_free_test"), "free_test", "free_test", "primary", "free_test")
+        elif bid == "buy_config":
+            return await _btn(await get_setting("btn_buy_config"), "buy_config", "buy_config", "primary", "buy_config")
+        elif bid == "my_configs":
+            return await _btn(await get_setting("btn_my_configs"), "my_configs", "my_configs", "success", "my_configs")
+        elif bid == "channel":
+            url = await get_setting("channel_url") or ""
+            if not url:
+                return None
+            return await _url_btn("channel", url, "link", "primary")
+        elif bid == "support":
+            url = await get_setting("support_url") or ""
+            if not url:
+                return None
+            return await _url_btn("support", url, "owner", "")
+        elif bid == "admin":
+            return await _btn(await get_setting("btn_admin_settings") or "Admin", "admin_menu", "settings", "", "admin_settings")
+        return None
+
+    current_row = []
+    rows = []
+    for item in layout:
+        if item.get("type") == "row_break":
+            if current_row:
+                rows.append(current_row)
+                current_row = []
+            continue
+        if item.get("type") == "builtin":
+            bid = item.get("id", "")
+            if not item.get("enabled", True):
+                continue
+            if bid == "free_test" and await get_setting("free_test_enabled") != "1":
+                continue
+            if bid == "admin" and not (user_id and await is_admin(user_id)):
+                continue
+            btn = await make_builtin_btn(bid)
+            if btn:
+                current_row.append(btn)
+        elif item.get("type") == "custom":
+            text = item.get("text", "")
+            url = item.get("url", "")
+            if not text or not url:
+                continue
+            kwargs = {"text": text, "url": url}
+            if item.get("emoji_id"):
+                kwargs["icon_custom_emoji_id"] = item["emoji_id"]
+            if item.get("style"):
+                kwargs["style"] = item["style"]
+            current_row.append(InlineKeyboardButton(**kwargs))
+
+    if current_row:
+        rows.append(current_row)
+
+    if not rows:
+        rows = [
+            [await _btn(await get_setting("btn_wallet"), "wallet", "wallet", "primary", "wallet")],
+            [await _btn(await get_setting("btn_buy_config"), "buy_config", "buy_config", "primary", "buy_config")],
+            [await _btn(await get_setting("btn_my_configs"), "my_configs", "my_configs", "success", "my_configs")],
+        ]
+
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
@@ -80,10 +159,11 @@ async def plans_menu() -> InlineKeyboardMarkup:
     symbol = await get_setting("currency_symbol") or "تومان"
     buttons = []
     for p in plans:
-        buttons.append([InlineKeyboardButton(
-            text=f"\U0001f4e6 {p['name']} \u2014 {p['gb']}GB / {p['days']}D \u2014 {p['price']:,} {symbol}",
-            callback_data=f"select_plan_{p['id']}",
-        )])
+        name_text = f"{p['name']} | {p['gb']}GB / {p['days']}D"
+        price_text = f"{p['price']:,} {symbol}"
+        name_btn = await _btn(name_text, f"select_plan_{p['id']}", "package", btn_id="plan_name")
+        price_btn = await _btn(price_text, f"select_plan_{p['id']}", "money", btn_id="plan_price")
+        buttons.append([name_btn, price_btn])
     back = await get_setting("btn_back")
     buttons.append([await _btn(back, "main_menu", "back", btn_id="back3")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -95,6 +175,53 @@ async def config_detail(config_id: int) -> InlineKeyboardMarkup:
         inline_keyboard=[
             [await _btn("Copy Sub Link", f"copy_link_{config_id}", "copy", btn_id="copy_link")],
             [await _btn(back, "my_configs", "back", btn_id="back4")],
+        ]
+    )
+
+
+async def service_detail_keyboard(config_id: int) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                await _btn("کپی لینک", f"copy_link_{config_id}", btn_id="service_copy_link"),
+                await _btn("تغییر لینک", f"regen_link_{config_id}", btn_id="service_change_link"),
+            ],
+            [
+                await _btn("حجم سرویس", f"volume_info_{config_id}", btn_id="service_volume"),
+                await _btn("خرید حجم", f"buy_extra_{config_id}", btn_id="service_buy_extra"),
+            ],
+            [
+                await _btn("کانفیگ‌ها", f"extract_configs_{config_id}", btn_id="service_extract"),
+            ],
+            [await _btn("بازگشت", "my_configs", btn_id="back")],
+        ]
+    )
+
+
+async def extra_volume_keyboard(config_id: int, price_per_gb: int) -> InlineKeyboardMarkup:
+    from database import get_setting
+    symbol = await get_setting("currency_symbol") or "تومان"
+    options = [5, 10, 20, 50]
+    buttons = []
+    row = []
+    for gb in options:
+        price = gb * price_per_gb
+        btn = await _btn(f"{gb}GB - {price:,} {symbol}", f"confirm_extra_{config_id}_{gb}", btn_id="service_confirm_extra")
+        row.append(btn)
+        if len(row) == 2:
+            buttons.append(row)
+            row = []
+    if row:
+        buttons.append(row)
+    buttons.append([await _btn("بازگشت", f"config_detail_{config_id}", btn_id="back")])
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+async def regenerate_link_keyboard(config_id: int) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [await _btn("تأیید", f"confirm_regen_{config_id}", btn_id="service_confirm_regenerate")],
+            [await _btn("لغو", f"config_detail_{config_id}", btn_id="cancel")],
         ]
     )
 
@@ -195,4 +322,15 @@ BUTTON_CONFIGS = {
     "send_emoji_register": {"label": "Send Premium Emoji", "default_style": "", "default_emoji": "star"},
     "view_emojis": {"label": "View Registered Emojis", "default_style": "", "default_emoji": "list"},
     "clear_emojis": {"label": "Clear All Emojis", "default_style": "danger", "default_emoji": "cross"},
+    "channel": {"label": "Channel", "default_style": "primary", "default_emoji": "link"},
+    "support": {"label": "Support", "default_style": "", "default_emoji": "owner"},
+    "plan_name": {"label": "Plan Name", "default_style": "primary", "default_emoji": "package"},
+    "plan_price": {"label": "Plan Price", "default_style": "success", "default_emoji": "money"},
+    "service_copy_link": {"label": "Copy Link", "default_style": "", "default_emoji": "copy"},
+    "service_change_link": {"label": "Change Link", "default_style": "primary", "default_emoji": "link"},
+    "service_volume": {"label": "Volume Info", "default_style": "", "default_emoji": "package"},
+    "service_buy_extra": {"label": "Buy Extra", "default_style": "success", "default_emoji": "plus"},
+    "service_confirm_extra": {"label": "Confirm Purchase", "default_style": "success", "default_emoji": "approve"},
+    "service_confirm_regenerate": {"label": "Confirm", "default_style": "success", "default_emoji": "approve"},
+    "service_extract": {"label": "Extract Configs", "default_style": "", "default_emoji": "link"},
 }

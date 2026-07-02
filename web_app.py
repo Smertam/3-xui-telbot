@@ -91,8 +91,9 @@ def settings():
             import config
             if new_token != config.BOT_TOKEN:
                 restart_script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "restart.sh")
+                bot_dir = os.path.dirname(os.path.abspath(__file__))
                 with open(restart_script, "w") as f:
-                    f.write("#!/bin/bash\nsleep 2\nkill -9 $(lsof -ti:5000) 2>/dev/null\nkill -9 $(pgrep -f run.py) 2>/dev/null\nsleep 2\ncd /root/3x-ui && nohup /root/3x-ui/venv/bin/python run.py > bot.log 2>&1 &\n")
+                    f.write(f"#!/bin/bash\nsleep 2\nkill -9 $(lsof -ti:5000) 2>/dev/null\nkill -9 $(pgrep -f run.py) 2>/dev/null\nsleep 2\ncd {bot_dir} && nohup {bot_dir}/venv/bin/python run.py > bot.log 2>&1 &\n")
                 os.chmod(restart_script, 0o755)
                 os.system("nohup bash " + restart_script + " > /dev/null 2>&1 &")
                 flash("Bot token changed! Bot will restart to apply.", "success")
@@ -127,7 +128,16 @@ def plans():
         "plans.html",
         plans=web_db.get_all_plans(),
         symbol=web_db.get_setting("currency_symbol") or "تومان",
+        plans_header=web_db.get_setting("plans_header_text") or "",
     )
+
+
+@app.route("/plans/save-header", methods=["POST"])
+@login_required
+def plans_save_header():
+    web_db.set_setting("plans_header_text", request.form.get("plans_header_text", ""))
+    flash("Plans header text saved!", "success")
+    return redirect(url_for("plans"))
 
 
 @app.route("/plans/add", methods=["GET", "POST"])
@@ -410,7 +420,6 @@ def buttons():
         ("primary", "Primary (Indigo)"),
         ("success", "Success (Green)"),
         ("danger", "Danger (Red)"),
-        ("secondary", "Secondary (Gray)"),
     ]
     buttons_data = {}
     for btn_id, cfg in BUTTON_CONFIGS.items():
@@ -421,6 +430,96 @@ def buttons():
             "current_emoji_name": cfg["default_emoji"],
         }
     return render_template("buttons.html", buttons=buttons_data, emoji_names=emoji_names, registered=registered, styles=styles)
+
+
+@app.route("/menu-layout", methods=["GET", "POST"])
+@login_required
+def menu_layout():
+    import json
+    from keyboards.user import BUTTON_CONFIGS
+
+    BUILTIN_LABELS = {
+        "wallet": "Wallet", "free_test": "Free Test", "buy_config": "Buy Config",
+        "my_configs": "My Configs", "channel": "Channel", "support": "Support",
+        "admin": "Admin Panel",
+    }
+
+    if request.method == "POST":
+        layout_raw = request.form.getlist("layout[]")
+        enabled = {}
+        for key in request.form:
+            if key.startswith("enabled_"):
+                enabled[key.replace("enabled_", "")] = request.form[key] == "1"
+
+        layout = []
+        for item_id in layout_raw:
+            if item_id.startswith("row_"):
+                layout.append({"type": "row_break"})
+            elif item_id.startswith("custom_"):
+                text = request.form.get(f"custom_text_{item_id}", "")
+                url = request.form.get(f"custom_url_{item_id}", "")
+                style = request.form.get(f"custom_style_{item_id}", "")
+                emoji_id = request.form.get(f"custom_emoji_{item_id}", "")
+                if text and url:
+                    layout.append({
+                        "type": "custom",
+                        "text": text,
+                        "url": url,
+                        "style": style,
+                        "emoji_id": emoji_id,
+                    })
+            else:
+                layout.append({
+                    "type": "builtin",
+                    "id": item_id,
+                    "enabled": enabled.get(item_id, True),
+                })
+
+        web_db.set_setting("menu_layout", json.dumps(layout))
+        flash("Menu layout saved!", "success")
+        return redirect(url_for("menu_layout"))
+
+    raw = web_db.get_setting("menu_layout") or "[]"
+    try:
+        layout = json.loads(raw)
+    except Exception:
+        layout = []
+
+    buttons = []
+    existing_ids = set()
+    for item in layout:
+        if item.get("type") == "row_break":
+            buttons.append({"id": "row_break_" + str(len(buttons)), "type": "row_break"})
+        elif item.get("type") == "custom":
+            buttons.append({
+                "id": f"custom_{len(buttons)}",
+                "type": "custom",
+                "text": item.get("text", ""),
+                "url": item.get("url", ""),
+                "style": item.get("style", ""),
+                "emoji_id": item.get("emoji_id", ""),
+            })
+        elif item.get("type") == "builtin":
+            bid = item.get("id", "")
+            existing_ids.add(bid)
+            buttons.append({
+                "id": bid,
+                "type": "builtin",
+                "label": BUILTIN_LABELS.get(bid, bid),
+                "enabled": item.get("enabled", True),
+            })
+
+    default_order = ["wallet", "free_test", "buy_config", "my_configs", "channel", "support", "admin"]
+    for bid in default_order:
+        if bid not in existing_ids:
+            buttons.append({
+                "id": bid,
+                "type": "builtin",
+                "label": BUILTIN_LABELS.get(bid, bid),
+                "enabled": True,
+            })
+
+    return render_template("menu_layout.html", buttons=buttons)
 
 
 if __name__ == "__main__":

@@ -7,6 +7,21 @@
         <i class="bi bi-plus-lg"></i> Add Plan
     </a>
 </div>
+
+<div class="card card-dark mb-4">
+    <div class="card-header"><i class="bi bi-chat-text"></i> Plans Header Text</div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('plans_save_header') }}">
+            <div class="mb-3">
+                <label class="form-label">Text shown above plans in the bot</label>
+                <textarea name="plans_header_text" class="form-control" rows="3" placeholder="Enter header text...">{{ plans_header }}</textarea>
+                <div class="form-text">Use HTML tags like &lt;b&gt;bold&lt;/b&gt;</div>
+            </div>
+            <button type="submit" class="btn btn-success"><i class="bi bi-check-lg"></i> Save Header</button>
+        </form>
+    </div>
+</div>
+
 <div class="card card-dark">
     <div class="table-responsive">
         <table class="table table-dark align-middle mb-0">

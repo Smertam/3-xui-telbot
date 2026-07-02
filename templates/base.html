@@ -74,6 +74,9 @@
         <a href="{{ url_for('buttons') }}" class="{% if request.endpoint == 'buttons' %}active{% endif %}">
             <i class="bi bi-hand-index-thumb"></i> Buttons
         </a>
+        <a href="{{ url_for('menu_layout') }}" class="{% if request.endpoint == 'menu_layout' %}active{% endif %}">
+            <i class="bi bi-menu-button-wide"></i> Menu Layout
+        </a>
         <div style="position:absolute;bottom:20px;left:20px;right:20px;">
             <a href="{{ url_for('logout') }}" style="border-left:none;color:#ef4444;">
                 <i class="bi bi-box-arrow-left"></i> Logout

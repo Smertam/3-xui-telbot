@@ -91,6 +91,52 @@
         </div>
 
         <div class="card card-dark mt-4">
+            <div class="card-header"><i class="bi bi-plus-circle"></i> Extra Volume</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Price per GB for Extra Volume</label>
+                    <input type="number" name="extra_volume_price_per_gb" class="form-control" value="{{ settings.get('extra_volume_price_per_gb', '6000') }}">
+                    <div class="form-text">Price in local currency for each GB of extra volume</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-dark mt-4">
+            <div class="card-header"><i class="bi bi-bell"></i> Notifications</div>
+            <div class="card-body">
+                <div class="mb-0">
+                    <label class="form-label">Notification Channel ID</label>
+                    <input type="text" name="notification_channel_id" class="form-control" placeholder="@mychannel or -1001234567890" value="{{ settings.get('notification_channel_id', '') }}">
+                    <div class="form-text">Private channel for new user alerts and receipts. Leave empty to disable.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-dark mt-4">
+            <div class="card-header"><i class="bi bi-link-45deg"></i> Channel & Support Links</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Channel URL</label>
+                    <input type="text" name="channel_url" class="form-control" placeholder="https://t.me/yourchannel" value="{{ settings.get('channel_url', '') }}">
+                    <div class="form-text">Leave empty to hide the Channel button</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Channel Button Text</label>
+                    <input type="text" name="btn_channel" class="form-control" value="{{ settings.get('btn_channel', 'Channel') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Support URL</label>
+                    <input type="text" name="support_url" class="form-control" placeholder="https://t.me/support_user" value="{{ settings.get('support_url', '') }}">
+                    <div class="form-text">Leave empty to hide the Support button</div>
+                </div>
+                <div class="mb-0">
+                    <label class="form-label">Support Button Text</label>
+                    <input type="text" name="btn_support" class="form-control" value="{{ settings.get('btn_support', 'Support') }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-dark mt-4">
             <div class="card-header"><i class="bi bi-broadcast"></i> Force Channel Join</div>
             <div class="card-body">
                 <div class="row">
@@ -205,8 +251,8 @@
                     <input type="text" name="btn_buy_config" class="form-control" value="{{ settings.get('btn_buy_config', 'Buy Config') }}">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">My Configs Button</label>
-                    <input type="text" name="btn_my_configs" class="form-control" value="{{ settings.get('btn_my_configs', 'My Configs') }}">
+                    <label class="form-label">My Services Button</label>
+                    <input type="text" name="btn_my_configs" class="form-control" value="{{ settings.get('btn_my_configs', 'سرویس‌های من') }}">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Top Up Button</label>

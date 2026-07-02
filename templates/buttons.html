@@ -20,10 +20,14 @@
     </div>
 </div>
 
+<div class="mb-3">
+    <input type="text" id="btnSearch" class="form-control" placeholder="Search buttons..." oninput="filterButtons()">
+</div>
+
 <form id="buttonsForm" method="POST">
-<div class="row g-4">
+<div class="row g-4" id="buttonsList">
     {% for btn_id, btn in buttons.items() %}
-    <div class="col-lg-6">
+    <div class="col-lg-6 btn-card" data-search="{{ btn.label|lower }} {{ btn_id|lower }}">
         <div class="card card-dark">
             <div class="card-header">
                 <i class="bi bi-hand-index-thumb"></i> {{ btn.label }}
@@ -51,4 +55,14 @@
     {% endfor %}
 </div>
 </form>
+
+<script>
+function filterButtons() {
+    const q = document.getElementById('btnSearch').value.toLowerCase();
+    document.querySelectorAll('.btn-card').forEach(card => {
+        const search = card.dataset.search || '';
+        card.style.display = search.includes(q) ? '' : 'none';
+    });
+}
+</script>
 {% endblock %}

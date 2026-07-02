@@ -84,7 +84,7 @@ async def init_db():
         "btn_wallet": "\U0001f4b3 Wallet",
         "btn_free_test": "\U0001f195 Free Test",
         "btn_buy_config": "\U0001f6d2 Buy Config",
-        "btn_my_configs": "\U0001f4cb My Configs",
+        "btn_my_configs": "\U0001f4cb سرویس‌های من",
         "btn_topup": "\U0001f4b5 Top Up",
         "btn_tx_history": "\U0001f4ca History",
         "btn_back": "\u2b05\ufe0f Back",
@@ -115,6 +115,8 @@ async def init_db():
         "panel_pass": "",
         "sub_link_template": "",
         "inbound_id": "",
+        "extra_volume_price_per_gb": "6000",
+        "notification_channel_id": "",
     }
     for key, value in defaults.items():
         existing = await db.execute("SELECT key FROM settings WHERE key = ?", (key,))
@@ -153,14 +155,16 @@ async def set_setting(key: str, value: str):
     await db.close()
 
 
-async def add_user(user_id: int, username: str | None, first_name: str | None):
+async def add_user(user_id: int, username: str | None, first_name: str | None) -> bool:
     db = await get_db()
-    await db.execute(
+    cursor = await db.execute(
         "INSERT OR IGNORE INTO users (id, username, first_name) VALUES (?, ?, ?)",
         (user_id, username, first_name),
     )
+    is_new = cursor.rowcount > 0
     await db.commit()
     await db.close()
+    return is_new
 
 
 async def get_user(user_id: int) -> dict | None:
@@ -215,6 +219,18 @@ async def get_all_users() -> list[dict]:
 async def get_user_count() -> int:
     db = await get_db()
     cursor = await db.execute("SELECT COUNT(*) as cnt FROM users")
+    row = await cursor.fetchone()
+    await db.close()
+    return row["cnt"]
+
+
+async def get_user_count_by_period(days: int = 0) -> int:
+    db = await get_db()
+    if days > 0:
+        since = (datetime.utcnow() - timedelta(days=days)).isoformat()
+        cursor = await db.execute("SELECT COUNT(*) as cnt FROM users WHERE created_at >= ?", (since,))
+    else:
+        cursor = await db.execute("SELECT COUNT(*) as cnt FROM users")
     row = await cursor.fetchone()
     await db.close()
     return row["cnt"]
@@ -319,14 +335,16 @@ async def get_configs_expiring_soon() -> list[dict]:
     return [dict(r) for r in rows]
 
 
-async def add_receipt(user_id: int, amount: float, photo_file_id: str, plan_id: int = 0):
+async def add_receipt(user_id: int, amount: float, photo_file_id: str, plan_id: int = 0) -> int:
     db = await get_db()
-    await db.execute(
+    cursor = await db.execute(
         "INSERT INTO receipts (user_id, plan_id, amount, photo_file_id) VALUES (?, ?, ?, ?)",
         (user_id, plan_id, amount, photo_file_id),
     )
+    receipt_id = cursor.lastrowid
     await db.commit()
     await db.close()
+    return receipt_id
 
 
 async def get_pending_receipts() -> list[dict]:
@@ -470,3 +488,25 @@ async def delete_plan(plan_id: int):
     await db.execute("UPDATE plans SET is_active = 0 WHERE id = ?", (plan_id,))
     await db.commit()
     await db.close()
+
+
+async def update_config_sub_link(config_id: int, new_sub_link: str):
+    db = await get_db()
+    await db.execute("UPDATE configs SET sub_link = ? WHERE id = ?", (new_sub_link, config_id))
+    await db.commit()
+    await db.close()
+
+
+async def get_config_by_id(config_id: int) -> dict | None:
+    db = await get_db()
+    cursor = await db.execute("SELECT * FROM configs WHERE id = ?", (config_id,))
+    row = await cursor.fetchone()
+    await db.close()
+    return dict(row) if row else None
+
+
+async def get_plan_name(plan_id: int) -> str:
+    if not plan_id:
+        return "تست رایگان"
+    plan = await get_plan(plan_id)
+    return plan["name"] if plan else "نامشخص"
